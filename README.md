@@ -1,7 +1,8 @@
 # 우리동네
 
 <div align="center">
-<!-- <img width="329" alt="image" src="https://user-images.githubusercontent.com/50205887/207568862-cdc9e2c0-b03c-43ff-bf46-3ba79a110d0c.png"> -->
+
+![우리동네 top](https://github.com/Woori-Dongne/frontend-react/assets/78401083/b4c5b37e-1ced-496e-ae23-104eb654c55a)
 
 </div>
 
@@ -22,23 +23,10 @@
 
 ## 시작 가이드
 
-- [Node.js 14.19.3](https://nodejs.org/ca/blog/release/v14.19.3/)
-- [Npm 9.2.0](https://www.npmjs.com/package/npm/v/9.2.0)
-- [Strapi 3.6.6](https://www.npmjs.com/package/strapi/v/3.6.6)
-
 ### Installation
 
 ```bash
 $ git clone https://github.com/Woori-Dongne/frontend-react
-```
-
-#### Frontend
-
-```
-$ cd voluntain-app
-$ nvm use v.14.19.3
-$ npm install
-$ npm run dev
 ```
 
 ---
