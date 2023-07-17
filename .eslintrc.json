@@ -21,6 +21,10 @@
     ],
     "import/no-unresolved": "off",
     "import/extensions": "off",
-    "react/react-in-jsx-scope": "off"
+    "react/react-in-jsx-scope": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/prefer-optional-chain": "error",
+    "@typescript-eslint/consistent-type-exports": "off",
+    "@typescript-eslint/consistent-type-imports": "off"
   }
 }
