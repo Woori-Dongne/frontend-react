@@ -12,12 +12,12 @@ type Props = DetailedHTMLProps<
   color?: string | number;
 };
 
-const Button = (props: Props) => {
-  return <ButtonComponent {...props}>{props.title}</ButtonComponent>;
+const ButtonComponent = (props: Props) => {
+  return <Button {...props}>{props.title}</Button>;
 };
-export default Button;
+export default ButtonComponent;
 
-const ButtonComponent = styled.button<CSSProperties>`
+const Button = styled.button<CSSProperties>`
   width: ${({ width }) => width};
   height: ${({ height }) => height};
   background: ${({ background }) => background};
