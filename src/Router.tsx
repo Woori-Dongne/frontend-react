@@ -7,6 +7,7 @@ import Writing from './pages/Writing';
 import Chat from './pages/Chat';
 import MyPage from './pages/MyPage';
 import NotFound from './pages/NotFound';
+import KakaoAuth from './pages/Login/KakaoAuth';
 
 const Router = () => {
   return (
@@ -14,6 +15,7 @@ const Router = () => {
       <Nav />
       <Routes>
         <Route path="/" element={<Login />} />
+        <Route path="/kakao" element={<KakaoAuth />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/main" element={<Main />} />
         <Route path="/writing" element={<Writing />} />

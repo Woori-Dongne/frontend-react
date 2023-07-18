@@ -10,10 +10,10 @@ const ButtonComponent = styled.button<ButtonProps>`
 
   cursor: pointer;
 
-  ${(props) => BORDER[props.border]}
-  ${(props) => SIZE[props.buttonsize]}
-  ${(props) => BACKGROUND[props.buttonbackground]}
-  ${(props) => FONT[props.font]}
+  ${(props) => BORDER[props.$border]}
+  ${(props) => SIZE[props.$buttonsize]}
+  ${(props) => BACKGROUND[props.$buttonbackground]}
+  ${(props) => FONT[props.$font]}
 `;
 
 export default ButtonComponent;

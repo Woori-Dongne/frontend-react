@@ -4,6 +4,9 @@ import theme from './theme';
 
 export const GlobalStyle = createGlobalStyle`
   ${reset}
+  *{
+    box-sizing: border-box;
+  }
 
   a{
     cursor:pointer;
