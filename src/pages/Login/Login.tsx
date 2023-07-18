@@ -1,10 +1,25 @@
+import { useNavigate } from 'react-router-dom';
+import { KAKAO_AUTH_URL } from './KakaoLogin/KakaoOauth';
 import Button from '../../components/Button/Button';
-import * as S from './Login.style';
-
 import logoIcon from '../../assets/logoIcon.png';
 import logoText from '../../assets/logoText.png';
+import * as S from './Login.style';
+import { useEffect } from 'react';
 
 const Login = () => {
+  const navigate = useNavigate();
+  const token = localStorage.getItem('AccessToken') as string;
+
+  useEffect(() => {
+    if (token !== '') {
+      navigate('/main');
+    }
+  }, []);
+
+  const handleKakaoLogin = () => {
+    window.location.href = KAKAO_AUTH_URL;
+  };
+
   return (
     <>
       <S.Container>
@@ -19,6 +34,7 @@ const Login = () => {
             $buttonsize="large"
             $buttonbackground="kakao"
             $font="black"
+            onClick={handleKakaoLogin}
           />
         </S.ButtonContainer>
       </S.Container>
