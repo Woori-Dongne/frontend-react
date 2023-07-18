@@ -8,6 +8,10 @@ export const Container = styled.div`
   display: flex;
 `;
 
+export const InputDiv = styled.div`
+  width: 100%;
+`;
+
 export const InputContainer = styled.div`
   width: 320px;
   height: 50vh;

@@ -9,14 +9,14 @@ const Signup = () => {
       <S.InputContainer>
         {INPUT_INFO.map(({ id, title, type, required, placeholder }) => {
           return (
-            <div key={id}>
+            <S.InputDiv key={id}>
               <Input
                 title={title}
                 type={type}
                 required={required}
                 placeholder={placeholder}
               />
-            </div>
+            </S.InputDiv>
           );
         })}
       </S.InputContainer>
