@@ -1,5 +1,7 @@
+import React from 'react';
+
 const Icons = () => {
-  return <div>Icons</div>;
+  return <div></div>;
 };
 
 export default Icons;

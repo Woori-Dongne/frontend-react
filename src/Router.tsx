@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Nav from './components/Nav';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Main from './pages/Main';
@@ -10,6 +11,7 @@ import NotFound from './pages/NotFound';
 const Router = () => {
   return (
     <BrowserRouter>
+      <Nav />
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/signup" element={<Signup />} />

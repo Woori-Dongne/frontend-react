@@ -6,36 +6,6 @@ export const Container = styled.div`
   margin: 32px;
 `;
 
-export const LogoBox = styled.div`
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 22px;
-`;
-
-export const LogoImg = styled.img`
-  position: fixed;
-  width: 83px;
-  height: 33px;
-  cursor: pointer;
-`;
-
-export const MyPageImg = styled.img`
-  position: fixed;
-  left: 341px;
-  width: 83px;
-  height: 33px;
-  cursor: pointer;
-`;
-
-export const ProfileIconsBox = styled.div`
-  display: relative;
-  width: 33px;
-  height: 33px;
-  align-items: center;
-`;
-
 export const ButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -144,7 +114,7 @@ export const MoreSvg = styled.img`
 `;
 
 export const FeedImage = styled.div`
-  margin-top: 22px;
+  margin: 22px 0;
   background-color: blue;
   height: 340px;
   border-radius: 20px;
