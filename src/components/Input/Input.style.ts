@@ -1,15 +1,17 @@
 import { CSSProperties } from 'react';
 import { styled } from 'styled-components';
+import { mixins } from '../../styles/mixins';
+import { typo } from '../../styles/typo';
+import theme from '../../styles/theme';
 
 export const InputTitleWrapper = styled.div`
-  display: flex;
-  align-items: center;
   margin-bottom: 8px;
-  color: #000;
-  font-size: 14px;
   font-style: normal;
-  font-weight: 400;
   line-height: normal;
+
+  ${mixins.flexBox('', 'center')}
+  ${theme.colors.mainBlack}
+  ${typo.normal}
 
   & span {
     margin-right: 6px;
@@ -26,20 +28,27 @@ export const InputTeg = styled.input<CSSProperties>`
   border: 1px solid #ffdc89;
   border-radius: 8px;
 
-  background: #ffffff;
+  background: ${theme.colors.white};
   color: ${({ color }) => color};
 
   &::placeholder {
-    color: #9e9e9e;
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 12px;
     font-style: normal;
-    font-weight: 400;
     line-height: normal;
+    color: ${theme.colors.disable};
+
+    ${typo.small}
   }
 `;
 
-export const CheckboxInput = styled.input`
+export const CheckContainer = styled.div`
+  display: flex;
+`;
+
+export const GenderContainer = styled.div`
+  ${mixins.flexBox('', 'center')}
+`;
+
+export const GenderCheckbox = styled.input`
   appearance: none;
   width: 14px;
   height: 14px;
@@ -51,4 +60,9 @@ export const CheckboxInput = styled.input`
     background-repeat: no-repeat;
     background-position: 50%;
   }
+`;
+
+export const GenderLabel = styled.label`
+  width: 60px;
+  ${typo.small}
 `;
