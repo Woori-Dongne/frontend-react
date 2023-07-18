@@ -15,10 +15,10 @@ const Login = () => {
         <S.ButtonContainer>
           <Button
             title="카카오톡으로 시작하기"
-            border="none"
-            buttonsize="large"
-            buttonbackground="kakao"
-            font="black"
+            $border="none"
+            $buttonsize="large"
+            $buttonbackground="kakao"
+            $font="black"
           />
         </S.ButtonContainer>
       </S.Container>
