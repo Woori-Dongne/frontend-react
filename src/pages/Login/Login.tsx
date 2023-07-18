@@ -1,7 +1,11 @@
 import * as S from './Login.style';
 
 const Login = () => {
-  return <S.Container>Login</S.Container>;
+  return (
+    <>
+      <S.Container></S.Container>
+    </>
+  );
 };
 
 export default Login;
