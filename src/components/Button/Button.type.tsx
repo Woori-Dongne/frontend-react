@@ -5,16 +5,16 @@ type ButtonProps = DetailedHTMLProps<
   HTMLButtonElement
 > & {
   title: string;
-  border: 'none' | 'bottom';
-  buttonsize: 'large' | 'medium' | 'small';
-  buttonbackground:
+  $border: 'none' | 'bottom';
+  $buttonsize: 'large' | 'medium' | 'small';
+  $buttonbackground:
     | 'mainYellow'
     | 'mainRed'
     | 'mainGreen'
     | 'white'
     | 'kakao'
     | 'disable';
-  font: 'black' | 'white';
+  $font: 'black' | 'white';
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 };
 

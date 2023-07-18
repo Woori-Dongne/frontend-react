@@ -19,10 +19,10 @@ const NotFound = () => {
       </S.AlertBox>
       <Button
         title="메인으로 이동하기"
-        border="none"
-        buttonsize="large"
-        buttonbackground="mainYellow"
-        font="black"
+        $border="none"
+        $buttonsize="large"
+        $buttonbackground="mainYellow"
+        $font="black"
         onClick={() => {
           navigate('/main');
         }}

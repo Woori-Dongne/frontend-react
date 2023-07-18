@@ -5,15 +5,15 @@ import { typo } from '../../styles/typo';
 import theme from '../../styles/theme';
 
 export const InputTitleWrapper = styled.div`
-  margin-bottom: 8px;
-  font-style: normal;
-  line-height: normal;
-
   ${mixins.flexBox('', 'center')}
-  ${theme.colors.mainBlack}
+
+  margin-bottom: 8px;
+  text-align: center;
+
   ${typo.normal}
 
   & span {
+    height: 14px;
     margin-right: 6px;
     color: #f9483b;
     text-align: center;
