@@ -12,7 +12,7 @@ const ButtonComponent = styled.button<ButtonProps>`
 
   color: ${({ color }) => color};
   text-align: center;
-  font-family: 'Noto Sans KR', sans-serif;
+  font-family: Noto Sans;
   font-size: ${({ fontSize }) => fontSize};
   font-weight: ${({ fontWeight }) => fontWeight};
 
