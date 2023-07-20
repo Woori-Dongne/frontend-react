@@ -38,12 +38,14 @@ const Modal = ({
             <>
               <Button
                 title={type === 'report' ? '네' : '신고하기'}
+                border="none"
                 buttonsize="medium"
                 buttonbackground="mainGreen"
                 font="white"
               />
               <Button
                 title={type === 'report' ? '아니오' : '취소하기'}
+                border="none"
                 buttonsize="medium"
                 buttonbackground="mainRed"
                 font="white"
@@ -54,6 +56,7 @@ const Modal = ({
           {(type === 'goback' || type === 'follow') && (
             <Button
               title={type === 'goback' ? '뒤로 돌아가기' : '채팅 계속하기'}
+              border="none"
               buttonsize="large"
               buttonbackground="mainYellow"
               font="black"
