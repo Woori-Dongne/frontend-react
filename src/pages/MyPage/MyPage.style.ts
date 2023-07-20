@@ -1,21 +1,17 @@
 import { styled } from 'styled-components';
+import { mixins } from '../../styles/mixins';
+import { typo } from '../../styles/typo';
 
 export const MenuBox = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  ${mixins.flexBox('space-between')};
 `;
 
 export const MenuTitle = styled.h2`
-  font-size: 16px;
-  font-weight: 600;
+  ${typo.h2};
 `;
 
 export const UserInfoBox = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  ${mixins.columnFlexBox()};
   padding: 53px 0;
 `;
 
@@ -27,29 +23,27 @@ export const UserImg = styled.div`
 `;
 
 export const UserNickName = styled.span`
-  font-size: 18px;
-  font-weight: 600;
+  ${typo.h1};
   margin-top: 15px;
 `;
 
 export const UserEmail = styled.span`
+  ${typo.normal};
   margin-top: 11px;
-  font-size: 14px;
-  color: #808080;
+  color: ${({ theme }) => theme.colors.mainGray};
 `;
 
 export const CategoryBox = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  ${mixins.flexBox('space-between')};
 `;
 
-export const CategoryTitle = styled('div')<{ type: boolean }>`
-  width: 100px;
+export const CategoryTitle = styled.div<{ type: boolean }>`
+  ${typo.normal};
   padding: 18px;
+  width: 100px;
   border-bottom: ${(props) => (props.type ? '3px solid #ffdc89' : '')};
   text-align: center;
-  font-size: 14px;
+  cursor: pointer;
 `;
 
 export const ListBox = styled.div`
@@ -77,6 +71,5 @@ export const FollowCard = styled.div`
 `;
 
 export const NickName = styled.span`
-  font-size: 18px;
-  font-weight: 600;
+  ${typo.h1};
 `;

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Feed } from '../../types/feedType';
 import FeedDetail from '../../components/FeedDetail';
+import Icon from '../../components/Icon';
 import * as S from './MyPage.style';
 
 const MyPage = () => {
@@ -24,9 +25,9 @@ const MyPage = () => {
   return (
     <>
       <S.MenuBox>
-        <img src="/icons/back.svg" alt="back" />
+        <Icon name="back" />
         <S.MenuTitle>My Profile</S.MenuTitle>
-        <img src="/icons/setting.svg" alt="setting" />
+        <Icon name="setting" />
       </S.MenuBox>
       <S.UserInfoBox>
         <S.UserImg />
@@ -52,7 +53,7 @@ const MyPage = () => {
         {postList.map((list: Feed) => {
           return (
             <S.ListCard key={list.id}>
-              <FeedDetail {...list} />{' '}
+              <FeedDetail {...list} />
             </S.ListCard>
           );
         })}

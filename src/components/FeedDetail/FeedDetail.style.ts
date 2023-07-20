@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import { mixins } from '../../styles/mixins';
+import { typo } from '../../styles/typo';
 
 export const TitleWrap = styled.div`
   display: flex;
@@ -7,22 +9,18 @@ export const TitleWrap = styled.div`
 `;
 
 export const Title = styled.span`
-  font-size: 16px;
-  font-weight: 600;
+  ${typo.h2};
   line-height: 1.4;
 `;
 
 export const SubTitle = styled.p`
+  ${typo.normal};
   margin-top: 6px;
-  font-size: 14px;
-  font-weight: 500;
   line-height: normal;
 `;
 
 export const InfoWrap = styled.div`
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
+  ${mixins.flexBox('space-between', 'flex-end')};
   gap: 8px;
   margin-top: 15px;
 `;
@@ -38,7 +36,7 @@ export const Description = styled.div`
   display: flex;
   align-items: center;
   gap: 4px;
-  color: #808080;
+  color: ${({ theme }) => theme.colors.mainGray};
 `;
 
 export const InfoDetail = styled.span`
@@ -46,11 +44,10 @@ export const InfoDetail = styled.span`
 `;
 
 export const Button = styled.button`
+  ${typo.h3};
   padding: 10px;
   width: 100px;
   border: none;
   border-radius: 8px;
   background-color: ${({ theme }) => theme.colors.mainYellow};
-  font-size: 14px;
-  font-weight: 600;
 `;

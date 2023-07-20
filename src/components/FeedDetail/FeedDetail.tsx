@@ -1,5 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import { Feed, Info, InfoDetail } from '../../types/feedType';
+import Icon from '../Icon/Icon';
 import * as S from './FeedDetail.style';
 
 const FeedDetail = ({ title, detail, people, time, location }: Feed) => {
@@ -16,7 +17,7 @@ const FeedDetail = ({ title, detail, people, time, location }: Feed) => {
     <>
       <S.TitleWrap>
         <S.Title>{title}</S.Title>
-        {isInMypage && <img src="/icons/master.svg" alt="master" />}
+        {isInMypage && <Icon name="master" />}
       </S.TitleWrap>
       {!isInMypage && <S.SubTitle>{detail}</S.SubTitle>}
       <S.InfoWrap>
@@ -24,7 +25,7 @@ const FeedDetail = ({ title, detail, people, time, location }: Feed) => {
           {INFO_TYPE.map(({ id, icon, subText }: Info) => {
             return (
               <S.Description key={id}>
-                <img src={`/icons/${icon}.svg`} alt={icon} />
+                <Icon name={icon} />
                 <S.InfoDetail>
                   {infoDetail[icon]}
                   {subText}

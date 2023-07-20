@@ -1,5 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
+import theme from './theme';
+
 export const GlobalStyle = createGlobalStyle`
   ${reset}
 
@@ -16,6 +18,6 @@ export const GlobalStyle = createGlobalStyle`
     padding: 32px;
     max-width: 430px;
     font-family: 'Noto Sans KR', sans-serif;
-    color: #292d32;
+    color: ${theme.colors.mainBlack};
   }
 `;
