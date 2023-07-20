@@ -1,8 +1,7 @@
 import { styled } from 'styled-components';
+import { mixins } from '../../styles/mixins';
 
 export const Container = styled.nav`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  ${mixins.flexBox('space-between')};
   margin-bottom: 22px;
 `;

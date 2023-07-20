@@ -1,4 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom';
+import Icon from '../Icon';
 import * as S from './Nav.style';
 
 const Nav = () => {
@@ -13,18 +14,16 @@ const Nav = () => {
 
   return (
     <S.Container>
-      <img
-        src="/assets/navLogo.svg"
-        alt="logo"
-        onClick={() => {
+      <Icon
+        name="navLogo"
+        clickAction={() => {
           navigate('/main');
         }}
       />
       {!unnecessaryMyPage && (
-        <img
-          src="/icons/myPage.svg"
-          alt="myPage"
-          onClick={() => {
+        <Icon
+          name="myPage"
+          clickAction={() => {
             navigate('/myPage');
           }}
         />

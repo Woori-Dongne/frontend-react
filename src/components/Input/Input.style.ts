@@ -5,6 +5,11 @@ export const InputTitleWrapper = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 8px;
+  color: #000;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 
   & span {
     margin-right: 6px;
@@ -16,7 +21,7 @@ export const InputTitleWrapper = styled.div`
 export const InputTeg = styled.input<CSSProperties>`
   width: 320px;
   height: ${({ height }) => height ?? '30px'};
-  padding: 9px 10px;
+  padding: 0px 10px;
 
   border: 1px solid #ffdc89;
   border-radius: 8px;
@@ -26,6 +31,8 @@ export const InputTeg = styled.input<CSSProperties>`
 
   &::placeholder {
     color: #9e9e9e;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 12px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
