@@ -7,7 +7,6 @@ const ButtonComponent = styled.button<ButtonProps>`
   text-align: center;
   font-style: normal;
   line-height: normal;
-
   cursor: pointer;
 
   ${(props) => BORDER[props.$border]}

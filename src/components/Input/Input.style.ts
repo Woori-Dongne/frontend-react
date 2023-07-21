@@ -6,11 +6,9 @@ import theme from '../../styles/theme';
 
 export const InputTitleWrapper = styled.div`
   ${mixins.flexBox('', 'center')}
-
+  ${typo.normal}
   margin-bottom: 8px;
   text-align: center;
-
-  ${typo.normal}
 
   & span {
     height: 14px;
@@ -21,7 +19,7 @@ export const InputTitleWrapper = styled.div`
 `;
 
 export const InputTeg = styled.input<CSSProperties>`
-  width: 320px;
+  width: 100%;
   height: ${({ height }) => height ?? '30px'};
   padding: 0px 10px;
 
@@ -30,7 +28,6 @@ export const InputTeg = styled.input<CSSProperties>`
 
   background: ${theme.colors.white};
   color: ${({ color }) => color};
-
   &::placeholder {
     font-style: normal;
     line-height: normal;

@@ -24,6 +24,7 @@ export const ModalContainer = styled.div`
 `;
 
 export const ConfrimContent = styled.div`
+  ${({ theme }) => theme.colors.black}
   ${typo.normal};
   width: 200px;
   text-align: center;

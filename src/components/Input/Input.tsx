@@ -3,7 +3,7 @@ import * as S from './Input.style';
 
 const Input = (props: InputProps) => {
   return (
-    <div>
+    <>
       {props.title !== '' && (
         <S.InputTitleWrapper>
           {props.required === true && <span>*</span>} {props.title}
@@ -21,7 +21,7 @@ const Input = (props: InputProps) => {
           <S.InputTeg {...props} />
         )}
       </S.CheckContainer>
-    </div>
+    </>
   );
 };
 

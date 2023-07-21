@@ -9,7 +9,7 @@ const colors = {
   white: '#FFFFFF',
 
   kakao: '#F9DF4A',
-  disable: '#9E9E9E',
+  disable: 'rgba(158, 158, 158, 0.50)',
   hover: '#D9D9D9',
   feedBack: '#FCFCFC',
 };
