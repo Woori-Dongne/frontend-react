@@ -10,6 +10,9 @@ export const GlobalStyle = createGlobalStyle`
 
   a{
     cursor:pointer;
+    background-color: rgba(217, 217, 217, 0.30);
+
+    
   }
 
   ul, ol, li {
