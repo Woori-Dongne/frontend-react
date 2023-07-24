@@ -23,4 +23,8 @@ export const GlobalStyle = createGlobalStyle`
     font-family: 'Noto Sans KR', sans-serif;
     color: ${theme.colors.mainBlack};
   }
+
+  * {
+    box-sizing: border-box;
+  }
 `;

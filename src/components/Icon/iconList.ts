@@ -7,6 +7,8 @@ import location from '../../assets/location.svg';
 import back from '../../assets/back.svg';
 import setting from '../../assets/setting.svg';
 import notFound from '../../assets/notFound.svg';
+import out from '../../assets/out.svg';
+import logos from '../../assets/logos.svg';
 
 interface IconList {
   [key: string]: string;
@@ -19,6 +21,8 @@ interface IconList {
   back: string;
   setting: string;
   notFound: string;
+  out: string;
+  logos: string;
 }
 
 export const iconList: IconList = {
@@ -31,4 +35,6 @@ export const iconList: IconList = {
   back,
   setting,
   notFound,
+  out,
+  logos,
 };

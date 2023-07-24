@@ -25,7 +25,7 @@ export const InputTeg = styled.input<CSSProperties>`
   height: ${({ height }) => height ?? '30px'};
   padding: 0px 10px;
 
-  border: 1px solid #ffdc89;
+  border: 1px solid ${({ theme }) => theme.colors.mainYellow};
   border-radius: 8px;
 
   background: ${theme.colors.white};
