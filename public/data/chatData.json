@@ -1,0 +1,58 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "nickName": "초롱이",
+      "auth": "admin",
+      "text": "안녕하세요!"
+    },
+    {
+      "id": 2,
+      "nickName": "소갈머리",
+      "auth": "person",
+      "text": "안녕하세요!"
+    },
+    {
+      "id": 3,
+      "nickName": "소갈머리",
+      "auth": "person",
+      "text": "안녕하세요!"
+    },
+    {
+      "id": 4,
+      "nickName": "소갈머리",
+      "auth": "person",
+      "text": "안녕하세요!"
+    },
+    {
+      "id": 5,
+      "nickName": "소갈머리",
+      "auth": "person",
+      "text": "안녕하세요!"
+    },
+    {
+      "id": 6,
+      "nickName": "소갈머리",
+      "auth": "person",
+      "text": "안녕하세요!"
+    },
+    {
+      "id": 7,
+      "nickName": "소갈머리",
+      "auth": "person",
+      "text": "안녕하세요!"
+    },
+    {
+      "id": 8,
+      "nickName": "소갈머리",
+      "auth": "person",
+      "text": "안녕하세요!"
+    },
+    {
+      "id": 9,
+      "nickName": "소갈머리",
+      "auth": "person",
+      "text": "안녕하세요!"
+    }
+  ]
+}

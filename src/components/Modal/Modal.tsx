@@ -1,54 +1,51 @@
 import Button from '../Button/Button';
-import logos from '../../assets/logos.svg';
+import Icon from '../Icon/Icon';
 import * as S from './Modal.style';
 
 interface ModalProps {
   confirmMessage?: string;
   type: string;
-  goToPreviousPage: () => void;
-  goToNextPage?: () => void;
+  confirmAction: () => void;
+  cancleAction?: () => void;
 }
 
 const Modal = ({
   confirmMessage,
   type,
-  goToPreviousPage,
-  goToNextPage,
+  confirmAction,
+  cancleAction,
 }: ModalProps) => {
   return (
     <S.DimmedBackground>
       <S.ModalContainer>
-        <S.LogosImgBox>
-          <S.LogoImg src={logos} />
-        </S.LogosImgBox>
-
-        <S.ConfrimContentBox>
-          <S.ConfrimContent>{confirmMessage} </S.ConfrimContent>
-        </S.ConfrimContentBox>
-
-        {type === 'report' && (
+        <Icon name="logos" width="63px" />
+        {type === 'report' ? (
           <S.ReportBox>
-            <h2>신고 사유 작성</h2>
+            <S.ReportTitle>신고 사유 작성</S.ReportTitle>
             <S.ReportTextarea placeholder="상세하게 신고 사유를 작성해주세요" />
           </S.ReportBox>
+        ) : (
+          <S.ConfrimContent>{confirmMessage}</S.ConfrimContent>
         )}
 
         <S.ButtonsBox>
           {(type === 'confirm' || type === 'report') && (
             <>
               <Button
-                title={type === 'report' ? '네' : '신고하기'}
+                title={type === 'report' ? '신고하기' : '네'}
                 $border="none"
                 $buttonsize="medium"
                 $buttonbackground="mainGreen"
                 $font="white"
+                onClick={confirmAction}
               />
               <Button
-                title={type === 'report' ? '아니오' : '취소하기'}
+                title={type === 'report' ? '취소하기' : '아니오'}
                 $border="none"
                 $buttonsize="medium"
                 $buttonbackground="mainRed"
                 $font="white"
+                onClick={cancleAction}
               />
             </>
           )}
@@ -60,6 +57,7 @@ const Modal = ({
               $buttonsize="large"
               $buttonbackground="mainYellow"
               $font="black"
+              onClick={confirmAction}
             />
           )}
         </S.ButtonsBox>

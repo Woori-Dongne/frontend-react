@@ -39,10 +39,12 @@ export const CategoryBox = styled.div`
 
 export const CategoryTitle = styled.div<{ type: boolean }>`
   ${typo.normal};
-  padding: 18px;
-  width: 100px;
+  ${mixins.flexBox()};
+  height: 60px;
+  flex: 1;
   border-bottom: ${(props) => (props.type ? '3px solid #ffdc89' : '')};
-  text-align: center;
+  white-space: pre-wrap;
+  line-height: 1.4;
   cursor: pointer;
 `;
 

@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Feed } from '../../types/feedType';
 import FeedDetail from '../../components/FeedDetail';
 import Icon from '../../components/Icon';
 import * as S from './MyPage.style';
 
 const MyPage = () => {
-  const [curCategory, setCurCategory] = useState('내가 쓴 게시글');
+  const [curCategory, setCurCategory] = useState('내가 쓴\n게시글');
   const [postList, setPostList] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getData = async () => {
@@ -25,7 +27,12 @@ const MyPage = () => {
   return (
     <>
       <S.MenuBox>
-        <Icon name="back" />
+        <Icon
+          name="back"
+          clickAction={() => {
+            navigate('/main');
+          }}
+        />
         <S.MenuTitle>My Profile</S.MenuTitle>
         <Icon name="setting" />
       </S.MenuBox>
@@ -69,7 +76,7 @@ const MyPage = () => {
 export default MyPage;
 
 const CATEGORY_TITLE = [
-  { id: 1, title: '내가 쓴 게시글' },
-  { id: 2, title: '채팅방 리스트' },
+  { id: 1, title: '내가 쓴\n게시글' },
+  { id: 2, title: '채팅방\n리스트' },
   { id: 3, title: '친구 목록' },
 ];
