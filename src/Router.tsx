@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Nav from './components/Nav';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import Main from './pages/Main';
+import Main from './pages/Main/Main';
 import Writing from './pages/Writing';
 import Chat from './pages/Chat';
 import MyPage from './pages/MyPage';

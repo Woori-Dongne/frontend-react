@@ -20,8 +20,9 @@ export const GlobalStyle = createGlobalStyle`
     margin: 0 auto;
     padding: 32px;
     max-width: 430px;
-    font-family: 'Noto Sans KR', sans-serif;
+    font-family: Noto Sans;
     color: ${theme.colors.mainBlack};
+    line-height: normal;
   }
 
   * {

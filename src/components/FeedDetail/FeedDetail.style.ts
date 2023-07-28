@@ -51,3 +51,8 @@ export const Button = styled.button`
   border-radius: 8px;
   background-color: ${({ theme }) => theme.colors.mainYellow};
 `;
+
+export const Div = styled.div`
+  display: flex;
+  flex-wrap: wrap-reverse;
+`;
