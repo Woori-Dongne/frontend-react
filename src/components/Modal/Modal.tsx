@@ -1,19 +1,18 @@
 import Button from '../Button/Button';
 import Icon from '../Icon/Icon';
 import * as S from './Modal.style';
-
 interface ModalProps {
-  confirmMessage?: string;
+  confirmMessage?: string | React.ReactNode;
   type: string;
   confirmAction: () => void;
-  cancleAction?: () => void;
+  cancelAction?: () => void;
 }
 
 const Modal = ({
   confirmMessage,
   type,
   confirmAction,
-  cancleAction,
+  cancelAction,
 }: ModalProps) => {
   return (
     <S.DimmedBackground>
@@ -45,7 +44,7 @@ const Modal = ({
                 $buttonsize="medium"
                 $buttonbackground="mainRed"
                 $font="white"
-                onClick={cancleAction}
+                onClick={cancelAction}
               />
             </>
           )}

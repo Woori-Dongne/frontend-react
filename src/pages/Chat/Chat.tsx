@@ -61,10 +61,10 @@ const Chat = () => {
           <S.InfoInput type="text" />
           <Button
             title="보내기"
-            border="none"
-            buttonsize="small"
-            buttonbackground="mainGreen"
-            font="white"
+            $border="none"
+            $buttonsize="small"
+            $buttonbackground="mainGreen"
+            $font="white"
           />
         </S.InfoBox>
       </S.Container>
@@ -75,7 +75,7 @@ const Chat = () => {
           confirmAction={() => {
             navigate('/main');
           }}
-          cancleAction={() => {
+          cancelAction={() => {
             setIsModalOpen((prev) => !prev);
           }}
         />

@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { API_URL } from '../../constants/api';
-import { Feed } from '../../types/feedType';
-import Buttons from './components/Buttons';
-import Feeds from './components/Feeds';
+import { API_URL } from '../../../constants/api';
+import { Feed } from '../../../types/feedType';
+import Buttons from '../components/Buttons/Buttons';
+import Feeds from '../components/Feeds/Feeds';
 import * as S from './Main.style';
 
 const Main = () => {

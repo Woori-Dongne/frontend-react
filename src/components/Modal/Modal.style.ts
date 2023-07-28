@@ -5,6 +5,7 @@ import { typo } from '../../styles/typo';
 export const DimmedBackground = styled.div`
   ${mixins.flexBox()};
   position: fixed;
+  z-index: 20;
   top: 0;
   left: 0;
   width: 100%;
@@ -18,7 +19,7 @@ export const ModalContainer = styled.div`
   padding: 15px;
   width: 259px;
   border-radius: 8px;
-  background: #fff;
+  background-color: ${({ theme }) => theme.colors.white};
   box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.25);
 `;
 

@@ -1,7 +1,7 @@
-import { Feed } from '../../../types/feedType';
-import Header from './Header';
-import FeedDetail from '../../../components/FeedDetail';
-import * as S from '../Main.style';
+import { Feed } from '../../../../types/feedType';
+import Header from '../Header/Header';
+import FeedDetail from '../../../../components/FeedDetail';
+import * as S from './Feeds.styles';
 
 const Feeds = (props: Feed) => {
   return (
