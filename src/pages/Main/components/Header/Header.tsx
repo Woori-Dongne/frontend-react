@@ -1,11 +1,18 @@
 import { useState } from 'react';
-// import WritingEditModal from '../WritingEditModal/WritingEditModal';
+import { useNavigate } from 'react-router-dom';
 import Icon from '../../../../components/Icon';
 import DropDown from '../../../../components/DropDown/DropDown';
+import { Feed } from '../../../../types/feedType';
+import profile from '../../../../assets/profile.png';
+import { CATEGORY_SORT } from '../../../Writing/constants/dropdownList';
 import * as S from './Header.styles';
 
-const Header = () => {
+const Header = (props: Feed) => {
   const [openMoreModal, setOpenMoreModal] = useState<boolean>(false);
+
+  const navigate = useNavigate();
+
+  const { category, user } = props;
 
   const openMoreDetail = () => {
     setOpenMoreModal(true);
@@ -16,17 +23,21 @@ const Header = () => {
   };
 
   const checkValue = (value: string | number): void => {
-    console.log(value);
+    navigate('/writing', { state: props });
   };
 
   return (
     <>
       <S.Header>
         <S.ProfileContainer>
-          <S.ProfileImage />
+          <S.ProfileImage
+            src={user.imageUrl === null ? profile : user.imageUrl}
+          />
           <S.ProfileNameBox>
-            <S.ProfileNickName>자허블</S.ProfileNickName>
-            <S.profileCategory>카테고리</S.profileCategory>
+            <S.ProfileNickName>{user.userName}</S.ProfileNickName>
+            <S.profileCategory>
+              {CATEGORY_SORT[category - 1]?.title}
+            </S.profileCategory>
           </S.ProfileNameBox>
         </S.ProfileContainer>
         <S.MoreDetailBox>
@@ -36,9 +47,12 @@ const Header = () => {
             height="7px"
             clickAction={openMoreDetail}
           />
-          {/* {openMoreModal && <WritingEditModal />} */}
           {openMoreModal && (
-            <DropDown dropDownList={FEED_MENU} clickValue={checkValue} />
+            <DropDown
+              dropDownList={FEED_MENU}
+              clickValue={checkValue}
+              width="30%"
+            />
           )}
         </S.MoreDetailBox>
       </S.Header>

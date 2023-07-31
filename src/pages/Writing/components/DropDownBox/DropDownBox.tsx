@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import {
   CATEGORY_SORT,
   DEADLINE_YEAR,
@@ -15,7 +16,7 @@ import * as S from './DropDownBox.style';
 
 interface Props {
   width?: string;
-  placeholder: string;
+  placeholder: string | number;
   type: string;
   changeValue: (data: string, value: string | number) => void;
 }

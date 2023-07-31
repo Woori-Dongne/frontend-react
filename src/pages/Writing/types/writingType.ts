@@ -16,8 +16,8 @@ export interface DataList {
 
 export interface Placeholder {
   [key: string]: string | number;
-  category: string;
-  personal: string;
+  category: string | number;
+  personal: string | number;
   year: string | number;
   month: string | number;
   day: string | number;

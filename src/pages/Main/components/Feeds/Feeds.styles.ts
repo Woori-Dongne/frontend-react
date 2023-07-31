@@ -5,13 +5,12 @@ export const PostFeedContainer = styled.div`
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   border-radius: 20px;
   padding: 20px;
+  margin-top: 30px;
 `;
 
-export const FeedImage = styled.div`
-  margin: 22px 0;
-  background-color: ${({ theme }) => theme.colors.mainGray};
-  height: 340px;
-  border-radius: 20px;
+export const FeedImage = styled.img`
+  border-radius: 8px;
+  width: 100%;
 `;
 
 export const FeedTitle = styled.h2`
@@ -20,8 +19,8 @@ export const FeedTitle = styled.h2`
   ${typo.h2}
 `;
 
-export const FeedDetail = styled.p`
+export const FeedDetail = styled.div`
   color: ${({ theme }) => theme.colors.mainBlack};
-  margin-top: 6px;
+  margin-top: 36px;
   ${typo.medium}
 `;

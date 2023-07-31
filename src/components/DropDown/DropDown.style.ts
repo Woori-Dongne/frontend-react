@@ -28,7 +28,7 @@ export const Container = styled.div<{
   text-align: center;
   overflow-y: scroll;
   animation: ${fadeIn} 0.3s ease-in-out;
-  z-index: 2;
+  z-index: 20;
 `;
 
 export const Text = styled.div<{ $color: boolean }>`

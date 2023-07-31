@@ -6,8 +6,10 @@ import * as S from './Feeds.styles';
 const Feeds = (props: Feed) => {
   return (
     <S.PostFeedContainer>
-      <Header />
-      <S.FeedImage />
+      <Header {...props} />
+
+      {props.imageUrl && <S.FeedImage alt="img" src={props.imageUrl} />}
+
       <FeedDetail {...props} />
     </S.PostFeedContainer>
   );

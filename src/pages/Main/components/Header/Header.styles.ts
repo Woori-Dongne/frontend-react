@@ -5,6 +5,7 @@ import { typo } from '../../../../styles/typo';
 export const Header = styled.div`
   ${mixins.flexBox('space-between', 'center')}
   position: relative;
+  padding-bottom: 20px;
   z-index: 10;
 `;
 
@@ -13,10 +14,9 @@ export const ProfileContainer = styled.div`
   ${mixins.flexBox('', 'center')}
 `;
 
-export const ProfileImage = styled.div`
+export const ProfileImage = styled.img`
   width: 56px;
   height: 56px;
-  background-color: orange;
   border-radius: 50%;
   cursor: pointer;
 `;
