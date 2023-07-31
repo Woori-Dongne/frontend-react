@@ -4,7 +4,7 @@ interface Props {
   width?: string;
   $top?: string;
   dropDownList: List[];
-  clickValue: (value: string | number) => void;
+  clickValue: (value: string | number, index: number) => void;
 }
 
 interface List {
@@ -27,7 +27,7 @@ const DropDown = ({
             $color={list.title !== '신고하기'}
             onClick={(e: React.MouseEvent) => {
               e.stopPropagation();
-              clickValue(list.title);
+              clickValue(list.title, list.id);
             }}
           >
             {list.title}

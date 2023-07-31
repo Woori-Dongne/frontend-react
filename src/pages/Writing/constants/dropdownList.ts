@@ -8,11 +8,11 @@ export const CATEGORY_SORT: Item[] = [
 ];
 
 export const PERSONNEL_LIMIT: Item[] = [
-  { id: 1, title: '1~2' },
-  { id: 2, title: '2~3' },
-  { id: 3, title: '3~4' },
-  { id: 4, title: '4~5' },
-  { id: 5, title: '5~6' },
+  { id: 1, title: 1 },
+  { id: 2, title: 2 },
+  { id: 3, title: 3 },
+  { id: 4, title: 4 },
+  { id: 5, title: 5 },
 ];
 
 export const DEADLINE_YEAR: Item[] = [

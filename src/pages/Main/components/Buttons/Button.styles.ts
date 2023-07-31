@@ -7,6 +7,8 @@ export const ButtonContainer = styled.div`
 `;
 
 export const ButtonBox = styled.div`
-  width: 179px;
   ${mixins.flexBox('space-between')}
+  width: 179px;
 `;
+
+export const CategoryModalContainer = styled.div``;

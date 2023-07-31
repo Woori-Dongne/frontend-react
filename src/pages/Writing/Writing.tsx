@@ -1,53 +1,59 @@
-import { useNavigate } from 'react-router-dom';
-// import Category from './components/Category';
+import { useState, useRef } from 'react';
+import { Feed } from '../../types/feedType';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Detail from './components/Detail/Detail';
 import Title from './components/Title/Title';
 import Pickup from './components/Pickup/Pickup';
 import Upload from './components/Upload/Upload';
-// import Personnel from './components/Personnel/Personnel';
-import DropDownModal from '../../components/DropDown/DropDownModal';
 import Button from '../../components/Button/Button';
 import Modal from '../../components/Modal';
-import useSelectHook from '../../hooks/useSelectHook';
-import * as S from './Writing.style';
 import DropDownBox from './components/DropDownBox/DropDownBox';
-import { useState } from 'react';
+import { CATEGORY_SORT } from './constants/dropdownList';
+import { uploadImageFile } from '../../S3upload';
+import * as S from './Writing.style';
 
 const Writing = () => {
-  const {
-    inputText,
-    selectValue,
-    isOpenModal,
-    onChangeHandler,
-    setSelectValue,
-    setIsOpenModal,
-    openYearModal,
-    openMonthModal,
-    openDayModal,
-    openHourModal,
-    openMinuteModal,
-  } = useSelectHook();
+  const [isOpenPostModal, setIsOpenPostModal] = useState(false);
+  const [, setLoading] = useState<boolean>(false);
+  const [image, setImage] = useState<string | null>(null);
+  const location = useLocation();
+
+  const inputImageRef = useRef<any>(null);
+  const onClearInput = () => {
+    inputImageRef.current.value = '';
+  };
+
+  const onClick = () => {
+    try {
+      setLoading(true);
+      uploadImageFile(image, setImage);
+      alert('피드백 전송을 성공했습니다.');
+    } catch (e) {
+      alert('피드백 전송에 실패했습니다.');
+    } finally {
+      setLoading(false);
+      onClearInput();
+    }
+  };
+
+  const { title, content, detailRegion }: Feed = location.state || {} || '';
+
+  const [inputText, setInputText] = useState({
+    titleText: title ?? '',
+    detailText: content || '',
+    pickupPlaceText: detailRegion || '',
+  });
 
   const { titleText, detailText, pickupPlaceText } = inputText;
 
-  const {
-    // selectCategory,
-    // selectPersonnel,
-    selectYearDeadline,
-    selectMonthDeadline,
-    selectDayDeadline,
-    selectHourDeadline,
-    selectMinuteDeadline,
-  } = selectValue;
-
-  const {
-    isOpenYearModal,
-    isOpenMonthModal,
-    isOpenDayModal,
-    isOpenHourModal,
-    isOpenMinuteModal,
-    showPostModal,
-  } = isOpenModal;
+  const onChangeHandler = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>,
+  ) => {
+    const { value, name } = e.target;
+    setInputText({ ...inputText, [name]: value });
+  };
 
   const lockScroll = () => {
     document.body.style.overflow = 'hidden';
@@ -58,7 +64,7 @@ const Writing = () => {
   };
 
   const clickPostButton = () => {
-    setIsOpenModal({ ...isOpenModal, showPostModal: true });
+    setIsOpenPostModal(true);
     lockScroll();
   };
 
@@ -69,14 +75,18 @@ const Writing = () => {
     unlockScroll();
   };
 
+  const dateDeadLine = new Date(location.state?.deadline);
+
   const [infoList, setInfoList] = useState({
-    category: '',
-    personal: '',
-    year: '',
-    month: '',
-    day: '',
-    hour: '',
-    minute: '',
+    category: !location.state?.category
+      ? ''
+      : CATEGORY_SORT[location.state.category - 1].title,
+    personal: !location.state?.personnel ? '' : location.state.personnel,
+    year: !location.state?.deadline ? '' : dateDeadLine.getFullYear(),
+    month: !location.state?.deadline ? '' : dateDeadLine.getMonth(),
+    day: !location.state?.deadline ? '' : dateDeadLine.getDay(),
+    hour: !location.state?.deadline ? '' : dateDeadLine.getHours(),
+    minute: !location.state?.deadline ? '' : dateDeadLine.getMinutes(),
   });
 
   const { category, personal, year, month, day, hour, minute } = infoList;
@@ -105,14 +115,9 @@ const Writing = () => {
           changeValue={selectList}
         />
       </S.InfoBox>
-      {/* <Category
-        selectCategory={selectCategory}
-        setSelectCategory={(value: any) => {
-          setSelectValue({ ...selectValue, selectCategory: value });
-        }}
-      /> */}
+
       <Detail detailText={detailText} handleChangeDetail={onChangeHandler} />
-      <Upload />
+      <Upload setImage={setImage} inputRef={inputImageRef} image={image} />
       <Pickup
         pickupPlaceText={pickupPlaceText}
         handleChangePickupPlace={onChangeHandler}
@@ -126,13 +131,9 @@ const Writing = () => {
           changeValue={selectList}
         />
       </S.InfoBox>
+      {/* 포스트 api나오면 붙일예정 */}
+      <button onClick={onClick}>s3 버튼</button>
 
-      {/* <Personnel
-        selectPersonnel={selectPersonnel}
-        setSelectPersonnel={(value: any) => {
-          setSelectValue({ ...selectValue, selectPersonnel: value });
-        }}
-      /> */}
       <S.InfoBox>
         <S.InfoTitle>마감 기한</S.InfoTitle>
         <S.DropDownWrap>
@@ -169,82 +170,6 @@ const Writing = () => {
         </S.DropDownWrap>
       </S.InfoBox>
 
-      <S.DeadlineBox>
-        <S.DeadlineName>
-          <span>✴︎</span> 마감 기한
-        </S.DeadlineName>
-        <S.Deadline>
-          <S.DateDeadline>
-            <DropDownModal
-              width="97px"
-              handleOpenModal={openYearModal}
-              isOpen={isOpenYearModal}
-              stateValue={selectYearDeadline}
-              setSelectSort={(value: any) => {
-                setSelectValue({
-                  ...selectValue,
-                  selectYearDeadline: value,
-                });
-              }}
-              name="DEADLINE_YEAR"
-            />
-            <DropDownModal
-              width="97px"
-              handleOpenModal={openMonthModal}
-              isOpen={isOpenMonthModal}
-              stateValue={selectMonthDeadline}
-              setSelectSort={(value: any) => {
-                setSelectValue({
-                  ...selectValue,
-                  selectMonthDeadline: value,
-                });
-              }}
-              name="DEADLINE_MONTH"
-            />
-            <DropDownModal
-              width="97px"
-              handleOpenModal={openDayModal}
-              isOpen={isOpenDayModal}
-              stateValue={selectDayDeadline}
-              setSelectSort={(value: any) => {
-                setSelectValue({
-                  ...selectValue,
-                  selectDayDeadline: value,
-                });
-              }}
-              name="DEADLINE_DAY"
-            />
-          </S.DateDeadline>
-          <S.TimeDeadline>
-            <DropDownModal
-              width="149px"
-              handleOpenModal={openHourModal}
-              isOpen={isOpenHourModal}
-              stateValue={selectHourDeadline}
-              setSelectSort={(value: any) => {
-                setSelectValue({
-                  ...selectValue,
-                  selectHourDeadline: value,
-                });
-              }}
-              name="DEADLINE_HOUR"
-            />
-            <DropDownModal
-              width="149px"
-              handleOpenModal={openMinuteModal}
-              isOpen={isOpenMinuteModal}
-              stateValue={selectMinuteDeadline}
-              setSelectSort={(value: any) => {
-                setSelectValue({
-                  ...selectValue,
-                  selectMinuteDeadline: value,
-                });
-              }}
-              name="DEADLINE_MINUTE"
-            />
-          </S.TimeDeadline>
-        </S.Deadline>
-      </S.DeadlineBox>
       <S.ButtonBox>
         <Button
           title="글 작성하기"
@@ -255,7 +180,7 @@ const Writing = () => {
           onClick={clickPostButton}
           disabled={!activeButton}
         />
-        {showPostModal && (
+        {isOpenPostModal && (
           <Modal
             type="confirm"
             confirmMessage={
@@ -265,7 +190,6 @@ const Writing = () => {
             }
             confirmAction={sucessToPost}
             cancelAction={() => {
-              setIsOpenModal({ ...isOpenModal, showPostModal: false });
               unlockScroll();
             }}
           />

@@ -25,14 +25,17 @@ const KakaoRedirect = () => {
         const jsonResponse = await response.json();
 
         // 토큰이 있을 때 분기처리 (백엔드 통신)
-        if (jsonResponse.access_token !== '') {
+        if (jsonResponse.access_token.length > 0) {
           const backendResponse = await fetch(`${BACKEND_API_URL}/auth/kakao`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+              'Content-Type': 'application/json',
+            },
             body: JSON.stringify({
               AccessToken: jsonResponse.access_token,
             }),
           });
+          console.log(backendResponse);
           const getBackendToken = await backendResponse.json();
           localStorage.setItem('accessToken', getBackendToken.accessToken);
           localStorage.setItem('refreshToken', getBackendToken.refreshToken);

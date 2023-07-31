@@ -1,10 +1,18 @@
 export interface Feed {
-  id?: number;
-  title?: string;
-  detail?: string;
-  people: string;
-  time: string;
-  location: string;
+  category: number;
+  content: string;
+  createdAt: string;
+  deadline: string;
+  detailRegion: string;
+  deletedAt: string;
+  id: number;
+  imageUrl: string;
+  personnel: number;
+  regionId: number;
+  title: string;
+  updatedAt: string;
+  userId: number;
+  user: { id: string; userName: string; imageUrl: string };
 }
 
 export interface Info {
@@ -14,8 +22,8 @@ export interface Info {
 }
 
 export interface InfoDetail {
-  [key: string]: string;
-  people: string;
-  time: string;
-  location: string;
+  [key: string]: string | number;
+  personnel: number;
+  deadline: string;
+  regionId: number;
 }

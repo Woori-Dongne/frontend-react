@@ -1,12 +1,19 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Feed, Info, InfoDetail } from '../../types/feedType';
-import Icon from '../Icon/Icon';
+import Icon from '../Icon';
 import Modal from '../Modal';
 import Button from '../Button/Button';
 import * as S from './FeedDetail.style';
 
-const FeedDetail = ({ title, detail, people, time, location }: Feed) => {
+const FeedDetail = ({
+  title,
+  content,
+  personnel,
+  deadline,
+  regionId,
+  detailRegion,
+}: Feed) => {
   const [isOpenChatModal, setIsOpenChatModal] = useState(false);
   const [showFullModal, setShowFullModal] = useState(false);
   const locationHook = useLocation();
@@ -32,13 +39,14 @@ const FeedDetail = ({ title, detail, people, time, location }: Feed) => {
   };
 
   const infoDetail: InfoDetail = {
-    people,
-    time,
-    location,
+    personnel,
+    detailRegion,
+    deadline,
+    regionId,
   };
 
   const checkPeronnel = () => {
-    if (Number(people) > 6) {
+    if (Number(personnel) > 6) {
       setIsOpenChatModal(false);
       setShowFullModal(true);
       unlockScroll();
@@ -54,7 +62,7 @@ const FeedDetail = ({ title, detail, people, time, location }: Feed) => {
         <S.Title>{title}</S.Title>
         {isInMypage && <Icon name="master" />}
       </S.TitleWrap>
-      {!isInMypage && <S.SubTitle>{detail}</S.SubTitle>}
+      {!isInMypage && <S.SubTitle>{content}</S.SubTitle>}
       <S.InfoWrap>
         <S.InfoBox>
           {INFO_TYPE.map(({ id, icon, subText }: Info) => {
@@ -116,7 +124,7 @@ const FeedDetail = ({ title, detail, people, time, location }: Feed) => {
 export default FeedDetail;
 
 const INFO_TYPE = [
-  { id: 1, icon: 'people', subText: '명' },
-  { id: 2, icon: 'time', subText: '' },
-  { id: 3, icon: 'location', subText: '' },
+  { id: 1, icon: 'personnel', subText: '명' },
+  { id: 2, icon: 'deadline', subText: '' },
+  { id: 3, icon: 'detailRegion', subText: '' },
 ];

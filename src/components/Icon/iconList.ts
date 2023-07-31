@@ -1,9 +1,9 @@
 import navLogo from '../../assets/navLogo.svg';
 import myPage from '../../assets/myPage.svg';
 import master from '../../assets/master.svg';
-import people from '../../assets/people.svg';
-import time from '../../assets/time.svg';
-import location from '../../assets/location.svg';
+import personnel from '../../assets/people.svg';
+import deadline from '../../assets/time.svg';
+import detailRegion from '../../assets/location.svg';
 import back from '../../assets/back.svg';
 import setting from '../../assets/setting.svg';
 import notFound from '../../assets/notFound.svg';
@@ -19,9 +19,10 @@ interface IconList {
   navLogo: string;
   myPage: string;
   master: string;
-  people: string;
-  time: string;
-  location: string;
+  personnel: string;
+  deadline: string;
+  detailRegion: string;
+
   back: string;
   setting: string;
   notFound: string;
@@ -37,9 +38,9 @@ export const iconList: IconList = {
   navLogo,
   myPage,
   master,
-  people,
-  time,
-  location,
+  personnel,
+  deadline,
+  detailRegion,
   back,
   setting,
   notFound,

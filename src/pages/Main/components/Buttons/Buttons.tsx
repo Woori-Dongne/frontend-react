@@ -1,13 +1,29 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import Button from '../../../../components/Button/Button';
 import Modal from '../../../../components/Modal';
+import DropDown from '../../../../components/DropDown/DropDown';
 import * as S from './Button.styles';
+import { CATEGORY_SORT } from '../../../Writing/constants/dropdownList';
 
 const Buttons = () => {
   const [isOpenWritingModal, setIsOpenWritingModal] = useState(false);
+  const [isOpenCategoryModal, setIsOpenCategoryModal] = useState(false);
 
   const navigate = useNavigate();
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const handleCategoryParams = (id: number | string, index: number) => {
+    searchParams.set('category', index.toString());
+    setSearchParams(searchParams);
+    setIsOpenCategoryModal(false);
+  };
+
+  const setDeadlineParams = () => {
+    searchParams.set('sortBy', 'deadLine');
+    setSearchParams(searchParams);
+  };
 
   const lockScroll = () => {
     document.body.style.overflow = 'hidden';
@@ -37,20 +53,37 @@ const Buttons = () => {
     <S.ButtonContainer>
       <S.ButtonBox>
         <Button
-          title="최신순"
+          title="마감순"
           $border="none"
           $font="black"
           $buttonsize="small"
           $buttonbackground="mainYellow"
+          onClick={setDeadlineParams}
         />
-        <Button
-          $border="none"
-          $font="black"
-          title="카테고리"
-          $buttonsize="small"
-          $buttonbackground="mainYellow"
-        />
+        <S.CategoryModalContainer>
+          <Button
+            $border="none"
+            $font="black"
+            title="카테고리"
+            $buttonsize="small"
+            $buttonbackground="mainYellow"
+            onClick={() => {
+              setIsOpenCategoryModal(!isOpenCategoryModal);
+            }}
+          />
+          {isOpenCategoryModal && (
+            <DropDown
+              dropDownList={CATEGORY_SORT}
+              clickValue={(list: string | number, index: number) => {
+                handleCategoryParams(list, index);
+              }}
+              width="10%"
+              $top="30"
+            />
+          )}
+        </S.CategoryModalContainer>
       </S.ButtonBox>
+
       <Button
         title="글 작성하기"
         $border="none"
@@ -59,6 +92,7 @@ const Buttons = () => {
         $buttonbackground="mainGreen"
         onClick={openWritingModal}
       />
+
       {isOpenWritingModal && (
         <Modal
           type="confirm"
