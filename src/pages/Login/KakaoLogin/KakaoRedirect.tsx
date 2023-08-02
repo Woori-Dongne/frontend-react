@@ -20,7 +20,7 @@ const KakaoRedirect = () => {
           body: `grant_type=authorization_code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&code=${code}`,
         });
         const jsonResponse = await response.json();
-        // 토큰이 있을 때 분기처리
+        // 토큰이 있을 때 분기처리 (백엔드 통신)
         if (jsonResponse.access_token !== '') {
           const backendResponse = await fetch(
             'http://staging-api.woori-dongne.co.kr/auth/kakao',
@@ -33,7 +33,8 @@ const KakaoRedirect = () => {
             },
           );
           const getBackendToken = await backendResponse.json();
-          localStorage.setItem('token', getBackendToken);
+          localStorage.setItem('AccessToken', getBackendToken.accessToken);
+          localStorage.setItem('RefreshToken', getBackendToken.refreshToken);
           alert('추가적인 회원정보를 입력해주세요!');
           navigate('/signup');
         } else {
