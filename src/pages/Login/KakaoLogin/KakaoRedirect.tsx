@@ -22,12 +22,19 @@ const KakaoRedirect = () => {
         const jsonResponse = await response.json();
         // 토큰이 있을 때 분기처리
         if (jsonResponse.access_token !== '') {
-          console.log(
-            '정상작동하나?',
-            'data.access_token:',
-            jsonResponse.access_token,
+          const backendResponse = await fetch(
+            'http://staging-api.woori-dongne.co.kr/auth/kakao',
+            {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                AccessToken: jsonResponse.access_token,
+              }),
+            },
           );
-          localStorage.setItem('token', jsonResponse.access_token);
+          const getBackendToken = await backendResponse.json();
+          localStorage.setItem('token', getBackendToken);
+          alert('추가적인 회원정보를 입력해주세요!');
           navigate('/signup');
         } else {
           // 토큰이 없을 때 분기처리
