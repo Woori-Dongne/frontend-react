@@ -1,19 +1,13 @@
+import { KAKAO_AUTH_URL } from './KakaoLogin/KakaoOauth';
 import Button from '../../components/Button/Button';
 import * as S from './Login.style';
 import logoIcon from '../../assets/logoIcon.png';
 import logoText from '../../assets/logoText.png';
 
 const Login = () => {
-  // const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}&response_type=code`;
-
-  const { Kakao } = window;
-
-  const handleKakaoLogin = () => {
-    Kakao.Auth.authorize({
-      redirectUri: 'http://localhost:3000/kakao',
-      scope: 'profile_nickname, gender, birthday',
-    });
-  };
+  function handleKakaoLogin() {
+    window.location.href = KAKAO_AUTH_URL;
+  }
 
   return (
     <>
