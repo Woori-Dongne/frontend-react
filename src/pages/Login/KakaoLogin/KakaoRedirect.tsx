@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CLIENT_ID, REDIRECT_URI } from './KakaoOauth';
 import { BACKEND_API_URL, GET_KAKAO_TOKEN } from '../../../constants/api';
-import logoIcon from '../../../assets/logoIcon.png';
+import Icon from '../../../components/Icon/Icon';
 import * as S from './KakaoRedirect.style';
 
 const KakaoRedirect = () => {
@@ -75,7 +75,7 @@ const KakaoRedirect = () => {
 
   return (
     <S.Container>
-      <img src={logoIcon} />
+      <Icon name="loginLogo" width="260px" />
       <S.Text>로그인 중 ...</S.Text>
     </S.Container>
   );

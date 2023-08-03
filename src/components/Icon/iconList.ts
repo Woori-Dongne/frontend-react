@@ -13,6 +13,7 @@ import logos from '../../assets/logos.svg';
 import arrowup from '../../assets/arrowup.svg';
 import arrowdown from '../../assets/arrowdown.svg';
 import upload from '../../assets/upload.svg';
+import loginLogo from '../../assets/loginLogo.svg';
 
 interface IconList {
   [key: string]: string;
@@ -22,7 +23,6 @@ interface IconList {
   personnel: string;
   deadline: string;
   detailRegion: string;
-
   back: string;
   setting: string;
   notFound: string;
@@ -32,6 +32,7 @@ interface IconList {
   arrowup: string;
   arrowdown: string;
   upload: string;
+  loginLogo: string;
 }
 
 export const iconList: IconList = {
@@ -50,4 +51,5 @@ export const iconList: IconList = {
   arrowup,
   arrowdown,
   upload,
+  loginLogo,
 };

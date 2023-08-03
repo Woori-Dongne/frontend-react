@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Feed, Info, InfoDetail } from '../../types/feedType';
+import { formatDate } from '../../utils/formatDate';
 import Icon from '../Icon';
 import Modal from '../Modal';
 import Button from '../Button/Button';
@@ -11,7 +12,6 @@ const FeedDetail = ({
   content,
   personnel,
   deadline,
-  regionId,
   detailRegion,
 }: Feed) => {
   const [isOpenChatModal, setIsOpenChatModal] = useState(false);
@@ -40,13 +40,12 @@ const FeedDetail = ({
 
   const infoDetail: InfoDetail = {
     personnel,
+    deadline: formatDate(deadline),
     detailRegion,
-    deadline,
-    regionId,
   };
 
   const checkPeronnel = () => {
-    if (Number(personnel) > 6) {
+    if (personnel > 6) {
       setIsOpenChatModal(false);
       setShowFullModal(true);
       unlockScroll();

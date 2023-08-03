@@ -1,18 +1,23 @@
 export interface Feed {
-  category: number;
-  content: string;
-  createdAt: string;
-  deadline: string;
+  id?: number;
+  userId?: number;
+  regionId?: number;
   detailRegion: string;
-  deletedAt: string;
-  id: number;
-  imageUrl: string;
+  category?: number;
   personnel: number;
-  regionId: number;
   title: string;
-  updatedAt: string;
-  userId: number;
-  user: { id: string; userName: string; imageUrl: string };
+  content: string;
+  deadline: string;
+  imageUrl?: string;
+  createAt?: string;
+  updatedAt?: string;
+  deletedAt?: string;
+}
+
+export interface Follow {
+  id?: number;
+  userName?: string;
+  imageUrl?: string;
 }
 
 export interface Info {
@@ -25,5 +30,5 @@ export interface InfoDetail {
   [key: string]: string | number;
   personnel: number;
   deadline: string;
-  regionId: number;
+  detailRegion: string;
 }
