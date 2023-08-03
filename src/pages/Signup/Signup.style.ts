@@ -1,23 +1,14 @@
 import { styled } from 'styled-components';
 import { mixins } from '../../styles/mixins';
 
-export const FormContainer = styled.form`
-  ${mixins.columnFlexBox()}
-
-  max-width: 480px;
-  display: flex;
+export const Container = styled.form`
+  ${mixins.columnFlexBox('space-between')}
+  height: 80vh;
 `;
 
-export const InputDiv = styled.div`
-  width: 100%;
-`;
-
-export const InputContainer = styled.div`
+export const InputBox = styled.div`
+  ${mixins.columnFlexBox('space-between', '')}
+  margin-top: 100px;
+  gap: 50px;
   width: 320px;
-  height: 50vh;
-  margin-bottom: 10vh;
-
-  display: flex;
-  flex-wrap: wrap;
-  align-content: space-around;
 `;

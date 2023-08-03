@@ -37,41 +37,13 @@ export const CategoryBox = styled.div`
   ${mixins.flexBox('space-between')};
 `;
 
-export const CategoryTitle = styled.div<{ type: boolean }>`
+export const CategoryTitle = styled.div<{ $cur: boolean }>`
   ${typo.normal};
   ${mixins.flexBox()};
   height: 60px;
   flex: 1;
-  border-bottom: ${(props) => (props.type ? '3px solid #ffdc89' : '')};
+  border-bottom: ${(props) => (props.$cur ? '3px solid #ffdc89' : '')};
   white-space: pre-wrap;
   line-height: 1.4;
   cursor: pointer;
-`;
-
-export const ListBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 16px;
-`;
-
-export const ListCard = styled.div`
-  padding: 8px 12px;
-  border-radius: 8px;
-  box-shadow: 5px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  background-color: #fcfcfc;
-`;
-
-export const FollowCard = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 8px 12px;
-  border-radius: 8px;
-  box-shadow: 5px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  background-color: #fcfcfc;
-`;
-
-export const NickName = styled.span`
-  ${typo.h1};
 `;
