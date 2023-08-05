@@ -42,6 +42,7 @@ export const ChatCard = styled.div<{ type: string }>`
 `;
 
 export const UserImg = styled.div`
+  position: relative;
   width: 56px;
   height: 56px;
   border: 1px solid black;

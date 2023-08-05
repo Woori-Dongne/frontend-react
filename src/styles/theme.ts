@@ -12,6 +12,7 @@ const colors = {
   disable: 'rgba(158, 158, 158, 0.50)',
   hover: '#D9D9D9',
   feedBack: '#FCFCFC',
+  reportRed: '#F9483B',
 };
 
 export type ColorTypes = typeof colors;

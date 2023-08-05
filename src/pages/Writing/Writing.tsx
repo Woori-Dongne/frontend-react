@@ -1,15 +1,17 @@
 import { useNavigate } from 'react-router-dom';
-import Category from './components/Category';
+// import Category from './components/Category';
 import Detail from './components/Detail/Detail';
 import Title from './components/Title/Title';
 import Pickup from './components/Pickup/Pickup';
 import Upload from './components/Upload/Upload';
-import Personnel from './components/Personnel/Personnel';
+// import Personnel from './components/Personnel/Personnel';
 import DropDownModal from '../../components/DropDown/DropDownModal';
 import Button from '../../components/Button/Button';
 import Modal from '../../components/Modal';
 import useSelectHook from '../../hooks/useSelectHook';
 import * as S from './Writing.style';
+import DropDownBox from './components/DropDownBox/DropDownBox';
+import { useState } from 'react';
 
 const Writing = () => {
   const {
@@ -29,8 +31,8 @@ const Writing = () => {
   const { titleText, detailText, pickupPlaceText } = inputText;
 
   const {
-    selectCategory,
-    selectPersonnel,
+    // selectCategory,
+    // selectPersonnel,
     selectYearDeadline,
     selectMonthDeadline,
     selectDayDeadline,
@@ -67,16 +69,26 @@ const Writing = () => {
     unlockScroll();
   };
 
+  const [infoList, setInfoList] = useState({
+    category: '',
+    personal: '',
+    year: '',
+    month: '',
+    day: '',
+    hour: '',
+    minute: '',
+  });
+
+  const { category, personal, year, month, day, hour, minute } = infoList;
+
+  const selectList = (name: string, value: string | number): void => {
+    setInfoList((prev) => ({ ...prev, [name]: value }));
+  };
+
   const activeButton =
     titleText.length > 1 &&
-    selectCategory !== '카테고리를 선택해 주세요.' &&
-    selectPersonnel !== '인원을 선택해 주세요' &&
     pickupPlaceText.length > 1 &&
-    selectYearDeadline !== '연도' &&
-    selectMonthDeadline !== '월' &&
-    selectDayDeadline !== '일' &&
-    selectHourDeadline !== '시간' &&
-    selectMinuteDeadline !== '분';
+    Object.values(infoList).every((el) => el !== '');
 
   return (
     <S.Container>
@@ -84,24 +96,79 @@ const Writing = () => {
         앞에 (<span>✴︎</span>)표시가 있는 항목은 필수 항목입니다.
       </S.Remind>
       <Title titleText={titleText} handleChangeTitle={onChangeHandler} />
-      <Category
+      <S.InfoBox>
+        <S.InfoTitle>카테고리</S.InfoTitle>
+        <DropDownBox
+          width="100%"
+          placeholder={category}
+          type="category"
+          changeValue={selectList}
+        />
+      </S.InfoBox>
+      {/* <Category
         selectCategory={selectCategory}
         setSelectCategory={(value: any) => {
           setSelectValue({ ...selectValue, selectCategory: value });
         }}
-      />
+      /> */}
       <Detail detailText={detailText} handleChangeDetail={onChangeHandler} />
       <Upload />
       <Pickup
         pickupPlaceText={pickupPlaceText}
         handleChangePickupPlace={onChangeHandler}
       />
-      <Personnel
+      <S.InfoBox>
+        <S.InfoTitle>인원</S.InfoTitle>
+        <DropDownBox
+          width="100%"
+          placeholder={personal}
+          type="personal"
+          changeValue={selectList}
+        />
+      </S.InfoBox>
+
+      {/* <Personnel
         selectPersonnel={selectPersonnel}
         setSelectPersonnel={(value: any) => {
           setSelectValue({ ...selectValue, selectPersonnel: value });
         }}
-      />
+      /> */}
+      <S.InfoBox>
+        <S.InfoTitle>마감 기한</S.InfoTitle>
+        <S.DropDownWrap>
+          <DropDownBox
+            width="30%"
+            placeholder={year}
+            type="year"
+            changeValue={selectList}
+          />
+          <DropDownBox
+            width="30%"
+            placeholder={month}
+            type="month"
+            changeValue={selectList}
+          />
+          <DropDownBox
+            width="30%"
+            placeholder={day}
+            type="day"
+            changeValue={selectList}
+          />
+          <DropDownBox
+            width="45%"
+            placeholder={hour}
+            type="hour"
+            changeValue={selectList}
+          />
+          <DropDownBox
+            width="45%"
+            placeholder={minute}
+            type="minute"
+            changeValue={selectList}
+          />
+        </S.DropDownWrap>
+      </S.InfoBox>
+
       <S.DeadlineBox>
         <S.DeadlineName>
           <span>✴︎</span> 마감 기한
