@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import WritingEditModal from '../WritingEditModal/WritingEditModal';
+// import WritingEditModal from '../WritingEditModal/WritingEditModal';
 import Icon from '../../../../components/Icon';
+import DropDown from '../../../../components/DropDown/DropDown';
 import * as S from './Header.styles';
 
 const Header = () => {
@@ -13,6 +14,11 @@ const Header = () => {
   const closeMoreDetail = () => {
     setOpenMoreModal(false);
   };
+
+  const checkValue = (value: string | number): void => {
+    console.log(value);
+  };
+
   return (
     <>
       <S.Header>
@@ -30,7 +36,10 @@ const Header = () => {
             height="7px"
             clickAction={openMoreDetail}
           />
-          {openMoreModal && <WritingEditModal />}
+          {/* {openMoreModal && <WritingEditModal />} */}
+          {openMoreModal && (
+            <DropDown dropDownList={FEED_MENU} clickValue={checkValue} />
+          )}
         </S.MoreDetailBox>
       </S.Header>
       {openMoreModal && <S.OutsideModal onClick={closeMoreDetail} />}
@@ -39,3 +48,5 @@ const Header = () => {
 };
 
 export default Header;
+
+const FEED_MENU = [{ id: 1, title: '글 수정하기', color: 'mainBlack' }];

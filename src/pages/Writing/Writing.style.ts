@@ -12,6 +12,31 @@ export const Remind = styled.h3`
   }
 `;
 
+export const InfoBox = styled.div`
+  margin-top: 20px;
+`;
+
+export const InfoTitle = styled.div`
+  ${mixins.flexBox('', 'center')}
+  ${typo.normal}
+  margin-bottom: 8px;
+
+  &::before {
+    content: '*';
+    height: 14px;
+    margin-right: 6px;
+    color: ${({ theme }) => theme.colors.reportRed};
+    text-align: center;
+  }
+`;
+
+export const DropDownWrap = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 15px;
+`;
+
 export const DeadlineBox = styled.div`
   display: flex;
   flex-direction: column;

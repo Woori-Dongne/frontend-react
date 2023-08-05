@@ -3,11 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import Icon from '../../components/Icon';
 import Button from '../../components/Button';
 import Modal from '../../components/Modal';
+import DropDown from '../../components/DropDown/DropDown';
 import * as S from './Chat.style';
 
 const Chat = () => {
   const [chat, setChat] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDropDownOpen, setIsDropDownOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,6 +25,10 @@ const Chat = () => {
 
     void getChatList();
   }, []);
+
+  const checkValue = (value: string | number): void => {
+    console.log(value);
+  };
 
   return (
     <>
@@ -52,7 +58,19 @@ const Chat = () => {
                   <S.NickName>{auth === 'admin' ? '나' : nickName}</S.NickName>
                   <S.ChatText type={auth}>{text}</S.ChatText>
                 </S.TextWrap>
-                <S.UserImg />
+                <S.UserImg
+                  onClick={() => {
+                    setIsDropDownOpen((prev) => !prev);
+                  }}
+                >
+                  {isDropDownOpen && auth !== 'admin' && (
+                    <DropDown
+                      $top="60px"
+                      dropDownList={DROPDOWN_INFO}
+                      clickValue={checkValue}
+                    />
+                  )}
+                </S.UserImg>
               </S.ChatCard>
             );
           })}
@@ -85,3 +103,8 @@ const Chat = () => {
 };
 
 export default Chat;
+
+const DROPDOWN_INFO = [
+  { id: 1, title: '친구등록', color: 'mainBlack' },
+  { id: 2, title: '신고하기', color: 'reportRed' },
+];
