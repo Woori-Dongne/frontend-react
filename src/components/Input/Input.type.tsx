@@ -4,6 +4,8 @@ type InputProps = React.DetailedHTMLProps<
 > & {
   type: string;
   title?: string;
+  $inputname?: string;
+
   placeholder?: string;
   required?: boolean;
 };
