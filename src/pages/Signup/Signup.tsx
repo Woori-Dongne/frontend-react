@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { BACKEND_API_URL } from '../../constants/api';
 import Button from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
@@ -8,10 +8,7 @@ import * as S from './Signup.style';
 
 const Signup = () => {
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
-  // 통신으로 받은 데이터 값
   const [getData, setGetData] = useState({});
-
-  // 인풋값 저장 useState
   const [inputInfo, setInputInfo] = useState({
     userName: '',
     region: '',
@@ -19,32 +16,66 @@ const Signup = () => {
   });
   const { userName, region, phoneNumber } = inputInfo;
 
+  // myPage에서 받은 state값 -> edit access token
+  const location = useLocation();
+
+  const isEdit = location.state !== null;
+
+  const [editInfo, setEditInfo] = useState({
+    userName: isEdit ? location.state.userName : '',
+    region: isEdit ? location.state.region : '',
+    phoneNumber: isEdit ? location.state.phoneNumber : '',
+  });
+
   const navigate = useNavigate();
   const accessToken = localStorage.getItem('accessToken') as string;
 
   // 작성되는 인풋값 저장함수
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setInputInfo({
-      ...inputInfo,
-      [name]: value,
-    });
+    if (isEdit) {
+      setEditInfo({
+        ...editInfo,
+        [name]: value,
+      });
+    } else {
+      setInputInfo({
+        ...inputInfo,
+        [name]: value,
+      });
+    }
   };
 
   // 유효성 검사
+  const validationsValue = isEdit ? editInfo : inputInfo;
   const validations = {
-    userName: userName.length <= 1 || userName.length <= 8,
-    region: region.match(
+    userName:
+      validationsValue.userName.length <= 1 ||
+      validationsValue.userName.length <= 8,
+    region: validationsValue.region.match(
       /^(.*?[시|도])\s*(.*?[시|군|구])\s*(.*?[동|면|읍|리])$/,
     ),
-    phoneNumber: phoneNumber.match(/^[0-9]{8,13}$/),
+    phoneNumber: validationsValue.phoneNumber.match(/^[0-9]{8,13}$/),
   };
 
+  // 유효성 검사결과
   const isValidationCheck = Object.values(validations).every((info) => info);
 
   // 통신 함수
   const handleOnSubmit = (event: any) => {
     event.preventDefault();
+
+    const bodyInfo = isEdit
+      ? {
+          ...editInfo,
+          gender: '',
+          imageUrl: null,
+        }
+      : {
+          ...inputInfo,
+          gender: '',
+          imageUrl: null,
+        };
 
     if (isValidationCheck) {
       const postUserInfo = async () => {
@@ -55,11 +86,7 @@ const Signup = () => {
               'Content-Type': 'application/json',
               Authorization: `Bearer ${accessToken}`,
             },
-            body: JSON.stringify({
-              ...inputInfo,
-              gender: '',
-              imageUrl: null,
-            }),
+            body: JSON.stringify(bodyInfo),
           });
           const data = await response.json();
           setGetData(data);
@@ -89,6 +116,8 @@ const Signup = () => {
     onClickToggleModal(isOpenModal);
   };
 
+  const editButton = isEdit ? '수정하기' : '회원가입 하기';
+
   return (
     <S.FormContainer onSubmit={handleOnSubmit}>
       <S.InputContainer>
@@ -100,7 +129,7 @@ const Signup = () => {
             placeholder="최대 8글자까지 가능합니다."
             $inputname="userName"
             name="userName"
-            value={userName}
+            value={isEdit ? editInfo.userName : userName}
             onChange={handleInput}
           />
         </S.InputDiv>
@@ -112,7 +141,7 @@ const Signup = () => {
             placeholder="시,군,구,동까지 입력해주세요."
             $inputname="region"
             name="region"
-            value={region}
+            value={isEdit ? editInfo.region : region}
             onChange={handleInput}
           />
         </S.InputDiv>
@@ -124,7 +153,7 @@ const Signup = () => {
             placeholder="중간에 하이픈(-)없이 입력해주세요 (ex.01012345678)"
             $inputname="phoneNumber"
             name="phoneNumber"
-            value={phoneNumber}
+            value={isEdit ? editInfo.phoneNumber : phoneNumber}
             onChange={handleInput}
           />
         </S.InputDiv>
@@ -132,7 +161,7 @@ const Signup = () => {
       {isValidationCheck ? (
         <Button
           type="submit"
-          title="회원가입 하기"
+          title={editButton}
           $border="none"
           $buttonsize="large"
           $buttonbackground="mainYellow"
@@ -158,7 +187,7 @@ const Signup = () => {
             <>
               입력한 정보로
               <br />
-              회원가입 하시겠습니까?
+              {isEdit ? '수정 하시겠습니까?' : '회원가입 하시겠습니까?'}
             </>
           }
           confirmAction={success}
