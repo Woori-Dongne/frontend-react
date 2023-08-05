@@ -11,9 +11,7 @@ const Login = () => {
   const token = localStorage.getItem('accessToken') as string;
 
   useEffect(() => {
-    if (token === '') {
-      navigate('/main');
-    }
+    token === null ? navigate('/') : navigate('/main');
   }, []);
 
   const handleKakaoLogin = () => {

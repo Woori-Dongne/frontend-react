@@ -7,7 +7,7 @@ import theme from '../../styles/theme';
 export const InputTitleWrapper = styled.div`
   ${mixins.flexBox('', 'center')}
   ${typo.normal}
-  margin-bottom: 8px;
+  flex-wrap: wrap;
   text-align: center;
 
   & span {
@@ -18,10 +18,11 @@ export const InputTitleWrapper = styled.div`
   }
 `;
 
-export const InputTeg = styled.input<CSSProperties>`
+export const Input = styled.input<CSSProperties>`
   width: 100%;
   height: ${({ height }) => height ?? '30px'};
   padding: 0px 10px;
+  margin-top: 8px;
 
   border: 1px solid ${({ theme }) => theme.colors.mainYellow};
   border-radius: 8px;

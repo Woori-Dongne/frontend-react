@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 import { mixins } from '../../styles/mixins';
 
-export const Container = styled.div`
+export const FormContainer = styled.form`
   ${mixins.columnFlexBox()}
 
   max-width: 480px;
