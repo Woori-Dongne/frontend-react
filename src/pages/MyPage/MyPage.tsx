@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { BACKEND_API_URL } from '../../constants/api';
 import { Feed } from '../../types/feedType';
 import FeedDetail from '../../components/FeedDetail';
 import Icon from '../../components/Icon';
@@ -24,6 +25,27 @@ const MyPage = () => {
     void getData();
   }, []);
 
+  const getEditInfo = () => {
+    const accessToken = localStorage.getItem('accessToken') as string;
+
+    const getData = async () => {
+      try {
+        const response = await fetch(`${BACKEND_API_URL}/users`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        const data = await response.json();
+        navigate('/signup', { state: data });
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    void getData();
+  };
+
   return (
     <>
       <S.MenuBox>
@@ -34,7 +56,12 @@ const MyPage = () => {
           }}
         />
         <S.MenuTitle>My Profile</S.MenuTitle>
-        <Icon name="setting" />
+        <Icon
+          name="setting"
+          clickAction={() => {
+            getEditInfo();
+          }}
+        />
       </S.MenuBox>
       <S.UserInfoBox>
         <S.UserImg />

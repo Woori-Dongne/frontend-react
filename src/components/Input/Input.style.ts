@@ -29,6 +29,7 @@ export const Input = styled.input<CSSProperties>`
 
   background: ${theme.colors.white};
   color: ${({ color }) => color};
+  ${typo.medium}
   &::placeholder {
     font-style: normal;
     line-height: normal;
