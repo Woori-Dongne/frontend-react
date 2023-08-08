@@ -1,7 +1,10 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Feed, Info, InfoDetail } from '../../types/feedType';
 import { formatDate } from '../../utils/formatDate';
+import { socket } from '../../lib/socket';
+import { RoomTitleContext } from '../ChatProvider/ChatProvider';
+import { JoinRoom } from '../../types/chatType';
 import Icon from '../Icon';
 import Modal from '../Modal';
 import Button from '../Button/Button';
@@ -16,9 +19,13 @@ const FeedDetail = ({
 }: Feed) => {
   const [isOpenChatModal, setIsOpenChatModal] = useState(false);
   const [showFullModal, setShowFullModal] = useState(false);
+  const { handleRoomInfo } = useContext(RoomTitleContext);
   const locationHook = useLocation();
   const navigate = useNavigate();
   const isInMypage = locationHook.pathname === '/myPage';
+
+  // TODO: roomname 받아오는 로직 있으면 지우기
+  const roomName = 'b2419d34-8f66-46b2-9913-ff0fe24743d3';
 
   const lockScroll = () => {
     document.body.style.overflow = 'hidden';
@@ -44,12 +51,16 @@ const FeedDetail = ({
     detailRegion,
   };
 
+  // leave-room
   const checkPeronnel = () => {
     if (personnel > 6) {
       setIsOpenChatModal(false);
       setShowFullModal(true);
       unlockScroll();
     } else {
+      socket.emit('join-room', { roomName, postId: 12 }, (chat: JoinRoom) => {
+        handleRoomInfo(chat.title, roomName);
+      });
       navigate('/chat');
       unlockScroll();
     }
@@ -96,9 +107,7 @@ const FeedDetail = ({
                 </>
               }
               cancelAction={closeModal}
-              confirmAction={() => {
-                checkPeronnel();
-              }}
+              confirmAction={checkPeronnel}
             />
           )}
           {showFullModal && (
