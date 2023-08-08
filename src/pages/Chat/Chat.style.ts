@@ -1,5 +1,5 @@
 import { css, styled } from 'styled-components';
-import { ChatUser } from './chat.type';
+import { ChatUser } from '../../types/chatType';
 import { mixins } from '../../styles/mixins';
 import { typo } from '../../styles/typo';
 

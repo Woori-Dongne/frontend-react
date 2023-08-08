@@ -8,22 +8,24 @@ import Chat from './pages/Chat';
 import MyPage from './pages/MyPage';
 import NotFound from './pages/NotFound';
 import KakaoRedirect from './pages/Login/KakaoLogin/KakaoRedirect';
+import { ChatProvider } from './components/ChatProvider/ChatProvider';
 
 const Router = () => {
   return (
     <BrowserRouter>
       <Nav />
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/kakaologin" element={<KakaoRedirect />} />
-
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/main" element={<Main />} />
-        <Route path="/writing" element={<Writing />} />
-        <Route path="/chat" element={<Chat />} />
-        <Route path="/mypage" element={<MyPage />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <ChatProvider>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/kakaologin" element={<KakaoRedirect />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/main" element={<Main />} />
+          <Route path="/writing" element={<Writing />} />
+          <Route path="/chat" element={<Chat />} />
+          <Route path="/mypage" element={<MyPage />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </ChatProvider>
     </BrowserRouter>
   );
 };

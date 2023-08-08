@@ -1,5 +1,8 @@
-import { useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { socket } from '../../lib/socket';
+import { RoomTitleContext } from '../../components/ChatProvider/ChatProvider';
+import { Message } from '../../types/chatType';
 import Icon from '../../components/Icon';
 import Button from '../../components/Button';
 import Modal from '../../components/Modal';
@@ -7,24 +10,44 @@ import DropDown from '../../components/DropDown/DropDown';
 import * as S from './Chat.style';
 
 const Chat = () => {
-  const [chat, setChat] = useState([]);
+  const [chat, setChat] = useState<Message[]>([]);
+  const [message, setMessage] = useState<string>('');
+  const { roomInfo } = useContext(RoomTitleContext);
+  const { title, roomName } = roomInfo;
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
+  const chatId = chat.length;
   const navigate = useNavigate();
 
   useEffect(() => {
-    const getChatList = async () => {
-      try {
-        const response = await fetch('/data/chatData.json');
-        const data = await response.json();
-        setChat(data.data);
-      } catch (e) {
-        console.error(e);
-      }
+    const messageHandler = (chat: Message) => {
+      setChat((prev) => [...prev, { ...chat, id: chatId, auth: 'person' }]);
     };
 
-    void getChatList();
-  }, []);
+    socket.on('message', messageHandler);
+
+    return () => {
+      socket.off('message', messageHandler);
+    };
+  }, [chat]);
+
+  const handleMessage = (e: ChangeEvent<HTMLInputElement>) => {
+    setMessage(e.target.value);
+  };
+
+  const sendMessage = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (message === '') {
+      alert('메시지를 입력해 주세요.');
+      return;
+    }
+
+    socket.emit('message', { roomName, message }, (chat: Message) => {
+      setChat((prev) => [...prev, { ...chat, id: chatId, auth: 'admin' }]);
+      setMessage('');
+    });
+  };
 
   const checkValue = (value: string | number): void => {
     console.log(value);
@@ -40,9 +63,7 @@ const Chat = () => {
               navigate(-1);
             }}
           />
-          <S.RoomTitle>
-            오늘 오후 7시 엽떡 드실분들 구합니다! 바로 연락주세요!
-          </S.RoomTitle>
+          <S.RoomTitle>{title}</S.RoomTitle>
           <Icon
             name="out"
             clickAction={() => {
@@ -51,12 +72,14 @@ const Chat = () => {
           />
         </S.MenuBox>
         <S.ChatBox>
-          {chat.map(({ id, nickName, auth, text }) => {
+          {chat.map(({ id, auth, username, message }) => {
             return (
               <S.ChatCard type={auth} key={id}>
                 <S.TextWrap type={auth}>
-                  <S.NickName>{auth === 'admin' ? '나' : nickName}</S.NickName>
-                  <S.ChatText type={auth}>{text}</S.ChatText>
+                  <S.NickName>{auth === 'admin' ? '나' : username}</S.NickName>
+                  <S.ChatText type={auth === 'admin' ? 'admin' : 'person'}>
+                    {message}
+                  </S.ChatText>
                 </S.TextWrap>
                 <S.UserImg
                   onClick={() => {
@@ -75,8 +98,8 @@ const Chat = () => {
             );
           })}
         </S.ChatBox>
-        <S.InfoBox>
-          <S.InfoInput type="text" />
+        <S.InfoBox onSubmit={sendMessage}>
+          <S.InfoInput type="text" onChange={handleMessage} value={message} />
           <Button
             title="보내기"
             $border="none"

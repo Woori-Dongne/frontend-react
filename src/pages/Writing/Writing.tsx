@@ -1,6 +1,11 @@
-import { useState, useRef } from 'react';
-import { Feed } from '../../types/feedType';
+import { useState, useContext, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { socket } from '../../lib/socket';
+import { Feed } from '../../types/feedType';
+import { CreateRoom } from '../../types/chatType';
+import { RoomTitleContext } from '../../components/ChatProvider/ChatProvider';
+// import Category from './components/Category';
+import { uploadImageFile } from '../../S3upload';
 import Detail from './components/Detail/Detail';
 import Title from './components/Title/Title';
 import Pickup from './components/Pickup/Pickup';
@@ -9,7 +14,6 @@ import Button from '../../components/Button/Button';
 import Modal from '../../components/Modal';
 import DropDownBox from './components/DropDownBox/DropDownBox';
 import { CATEGORY_SORT } from './constants/dropdownList';
-import { uploadImageFile } from '../../S3upload';
 import * as S from './Writing.style';
 
 const Writing = () => {
@@ -68,10 +72,26 @@ const Writing = () => {
     lockScroll();
   };
 
+  const { handleRoomInfo } = useContext(RoomTitleContext);
   const navigate = useNavigate();
 
+  // FIX: 방 만들때 사용해야 하는 데이터기 때문에 데이터 입력 로직 완성 되면 지우기
+  const testRoomData = {
+    title: '안녕하세요',
+    content: '테스트',
+    personnel: 4,
+    category: 2,
+    regionId: 1,
+    detailRegion: '선릉 위워크',
+    imageUrl: 'null',
+    deadline: new Date(Date.UTC(2023, 8, 8, 18, 12, 12)),
+  };
+
   const sucessToPost = () => {
-    navigate('/main');
+    socket.emit('create-room', testRoomData, (chat: CreateRoom) => {
+      handleRoomInfo(chat.title, chat.roomName);
+      navigate('/chat');
+    });
     unlockScroll();
   };
 
