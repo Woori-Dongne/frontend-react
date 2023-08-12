@@ -3,7 +3,7 @@ export interface Feed {
   userId?: number;
   regionId?: number;
   detailRegion: string;
-  category?: number;
+  category: number;
   personnel: number;
   title: string;
   content: string;
@@ -12,6 +12,7 @@ export interface Feed {
   createAt?: string;
   updatedAt?: string;
   deletedAt?: string;
+  user: Follow;
 }
 
 export interface Follow {
