@@ -9,6 +9,8 @@ const Main = () => {
   const [searchParams] = useSearchParams();
   const [feedData, loading] = useGetFetch(`/posts?${searchParams.toString()}`);
 
+  console.log(feedData);
+
   if (loading) return null;
 
   return (

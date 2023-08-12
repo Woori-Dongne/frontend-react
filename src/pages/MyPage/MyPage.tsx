@@ -9,7 +9,14 @@ import * as S from './MyPage.style';
 const MyPage = () => {
   const [curCategoryId, setCurCategoryId] = useState(0);
   const [curApi, setCurApi] = useState('/posts/user?offset=0');
-  const [userData, setUserData] = useState<UserInput>({});
+  const [userData, setUserData] = useState<UserInput>({
+    userName: '',
+    gender: '',
+    region: '',
+    phoneNumber: '',
+    imageUrl: '',
+  });
+
   const { userName, region } = userData;
 
   const navigate = useNavigate();
