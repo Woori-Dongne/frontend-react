@@ -17,27 +17,36 @@ const myBucket = new AWS.S3({
 
 interface props {
   ACL: string;
-  Body: string;
+  Body: string | File;
   Bucket: string;
   Key: string;
 }
 
-export const uploadImageFile = (image: any, setImage: any) => {
+export const uploadImageFile = (
+  image: any,
+  setImage: React.Dispatch<React.SetStateAction<string | File | null>>,
+  setImgUrl: React.Dispatch<React.SetStateAction<string>>,
+) => {
   const params: props = {
     ACL: 'public-read',
     Body: image,
     Bucket: S3_BUCKET,
     Key: S3_BUCKET + '/' + image.name,
   };
-
+  console.log(image.name);
   myBucket
     .putObject(params)
-    .on('httpUploadProgress', (evt: any) => {
+    .on('httpUploadProgress', () => {
       setTimeout(() => {
         setImage(null);
       }, 3000);
     })
     .send((err) => {
       if (err) console.log('image upload error', err);
+      else {
+        const imageUrl = `https://s3.${REGION}.amazonaws.com/${S3_BUCKET}/${params.Key}`;
+        console.log('Image URL:', imageUrl);
+        setImgUrl(imageUrl);
+      }
     });
 };

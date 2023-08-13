@@ -1,4 +1,11 @@
-import { ChangeEvent, FormEvent, useContext, useEffect, useState } from 'react';
+import {
+  ChangeEvent,
+  FormEvent,
+  useContext,
+  useEffect,
+  useState,
+  useRef,
+} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { socket } from '../../lib/socket';
 import { RoomTitleContext } from '../../components/ChatProvider/ChatProvider';
@@ -14,6 +21,7 @@ const Chat = () => {
   const [message, setMessage] = useState<string>('');
   const { roomInfo } = useContext(RoomTitleContext);
   const { title, roomName } = roomInfo;
+  const modalRef = useRef<HTMLDivElement>(null);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
@@ -91,6 +99,8 @@ const Chat = () => {
                       $top="60px"
                       dropDownList={DROPDOWN_INFO}
                       clickValue={checkValue}
+                      modalRef={modalRef}
+                      setState={setIsDropDownOpen}
                     />
                   )}
                 </S.UserImg>

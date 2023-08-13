@@ -1,3 +1,4 @@
+import { useRef, useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Feed } from '../../../types/feedType';
 import useGetFetch from '../../../hooks/useGetFetch';
@@ -7,7 +8,33 @@ import EmptyCard from '../../../components/EmptyCard';
 
 const Main = () => {
   const [searchParams] = useSearchParams();
-  const [feedData, loading] = useGetFetch(`/posts?${searchParams.toString()}`);
+  const [page, setPage] = useState(0);
+  const [feedData, loading] = useGetFetch(
+    `/posts?offset=${page}&${searchParams.toString()}`,
+    page,
+  );
+  const pageEnd: any = useRef();
+
+  const loadMore = () => {
+    setPage((prev) => prev + 1);
+  };
+
+  useEffect(() => {
+    if (!loading) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting) {
+            loadMore();
+          }
+        },
+        { threshold: 0.8 },
+      );
+
+      if (pageEnd.current) {
+        observer.observe(pageEnd.current);
+      }
+    }
+  }, [loading]);
 
   if (loading) return null;
 
@@ -21,6 +48,7 @@ const Main = () => {
       ) : (
         <EmptyCard />
       )}
+      <div ref={pageEnd} />
     </div>
   );
 };

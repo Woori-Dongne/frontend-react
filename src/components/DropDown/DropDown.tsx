@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import * as S from './DropDown.style';
 
 interface Props {
@@ -5,6 +6,9 @@ interface Props {
   $top?: string;
   dropDownList: List[];
   clickValue: (value: string | number, index: number) => void;
+  modalRef: React.RefObject<HTMLDivElement>;
+  setState: any;
+  stateType?: string;
 }
 
 interface List {
@@ -17,9 +21,26 @@ const DropDown = ({
   $top = '40px',
   dropDownList,
   clickValue,
+  modalRef,
+  setState,
+  stateType,
 }: Props) => {
+  const handleOutsideClick = (event: any) => {
+    if (modalRef.current && !modalRef.current.contains(event.target)) {
+      setState(stateType === 'boolean' ? false : '');
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleOutsideClick);
+
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, []);
+
   return (
-    <S.Container width={width} $top={$top}>
+    <S.Container width={width} $top={$top} ref={modalRef}>
       {dropDownList.map((list) => {
         return (
           <S.Text

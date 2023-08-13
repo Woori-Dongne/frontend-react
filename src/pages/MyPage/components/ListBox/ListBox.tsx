@@ -11,7 +11,8 @@ interface Props {
 }
 
 const ListBox = ({ id, api }: Props) => {
-  const [data, loading] = useGetFetch(api);
+  const page = 1;
+  const [data, loading] = useGetFetch(api, page);
 
   if (loading) return null;
 
