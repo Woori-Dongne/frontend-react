@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Feed } from '../../../../types/feedType';
 import Icon from '../../../../components/Icon';
@@ -13,6 +13,7 @@ const Header = (props: Feed) => {
   const navigate = useNavigate();
 
   const { category, user, id, userId } = props;
+  const modalRef = useRef<HTMLDivElement>(null);
 
   const openMoreDetail = () => {
     setOpenMoreModal(true);
@@ -54,6 +55,8 @@ const Header = (props: Feed) => {
               dropDownList={FEED_MENU}
               clickValue={checkValue}
               width="30%"
+              modalRef={modalRef}
+              setState={setOpenMoreModal}
             />
           )}
         </S.MoreDetailBox>

@@ -4,7 +4,6 @@ import { socket } from '../../lib/socket';
 import { Feed } from '../../types/feedType';
 import { CreateRoom } from '../../types/chatType';
 import { RoomTitleContext } from '../../components/ChatProvider/ChatProvider';
-// import Category from './components/Category';
 import { uploadImageFile } from '../../S3upload';
 import Detail from './components/Detail/Detail';
 import Title from './components/Title/Title';
@@ -14,23 +13,26 @@ import Button from '../../components/Button/Button';
 import Modal from '../../components/Modal';
 import DropDownBox from './components/DropDownBox/DropDownBox';
 import { CATEGORY_SORT } from './constants/dropdownList';
+// import { BACKEND_API_URL } from '../../constants/api';
 import * as S from './Writing.style';
 
 const Writing = () => {
   const [isOpenPostModal, setIsOpenPostModal] = useState(false);
+  const [imgSrc, setImgSrc] = useState<string | null>(null);
   const [, setLoading] = useState<boolean>(false);
-  const [image, setImage] = useState<string | null>(null);
+  const [image, setImage] = useState<string | null | File>(null);
   const location = useLocation();
-
-  const inputImageRef = useRef<any>(null);
+  const [imgUrl, setImgUrl] = useState('');
+  const inputImageRef = useRef<HTMLInputElement | null>(null);
   const onClearInput = () => {
-    inputImageRef.current.value = '';
+    if (inputImageRef.current) {
+      inputImageRef.current.value = '';
+    }
   };
-
   const onClick = () => {
     try {
       setLoading(true);
-      uploadImageFile(image, setImage);
+      uploadImageFile(image, setImage, setImgUrl);
       alert('피드백 전송을 성공했습니다.');
     } catch (e) {
       alert('피드백 전송에 실패했습니다.');
@@ -81,13 +83,15 @@ const Writing = () => {
     content: '테스트',
     personnel: 4,
     category: 2,
-    regionId: 1,
+    regionId: 3,
     detailRegion: '선릉 위워크',
-    imageUrl: 'null',
+    imageUrl: imgUrl,
     deadline: new Date(Date.UTC(2023, 8, 8, 18, 12, 12)),
   };
 
   const sucessToPost = () => {
+    onClick();
+
     socket.emit('create-room', testRoomData, (chat: CreateRoom) => {
       handleRoomInfo(chat.title, chat.roomName);
       navigate('/chat');
@@ -137,7 +141,12 @@ const Writing = () => {
       </S.InfoBox>
 
       <Detail detailText={detailText} handleChangeDetail={onChangeHandler} />
-      <Upload setImage={setImage} inputRef={inputImageRef} image={image} />
+      <Upload
+        setImage={setImage}
+        inputRef={inputImageRef}
+        imgSrc={imgSrc}
+        setImgSrc={setImgSrc}
+      />
       <Pickup
         pickupPlaceText={pickupPlaceText}
         handleChangePickupPlace={onChangeHandler}
@@ -152,7 +161,7 @@ const Writing = () => {
         />
       </S.InfoBox>
       {/* 포스트 api나오면 붙일예정 */}
-      <button onClick={onClick}>s3 버튼</button>
+      {/* <button onClick={onClick}>s3 버튼</button> */}
 
       <S.InfoBox>
         <S.InfoTitle>마감 기한</S.InfoTitle>

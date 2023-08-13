@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import Button from '../../../../components/Button/Button';
 import Modal from '../../../../components/Modal';
-import DropDown from '../../../../components/DropDown/DropDown';
 import { CATEGORY_SORT } from '../../../Writing/constants/dropdownList';
+import DropDown from '../../../../components/DropDown/DropDown';
+
 import * as S from './Button.styles';
 
 const Buttons = () => {
@@ -11,6 +12,8 @@ const Buttons = () => {
   const [isOpenCategoryModal, setIsOpenCategoryModal] = useState(false);
 
   const navigate = useNavigate();
+
+  const modalRef = useRef<HTMLDivElement>(null);
 
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -77,8 +80,10 @@ const Buttons = () => {
               clickValue={(list: string | number, index: number) => {
                 handleCategoryParams(list, index);
               }}
-              width="inherit"
-              $top="125px"
+              width="10%"
+              $top="30"
+              modalRef={modalRef}
+              setState={setIsOpenCategoryModal}
             />
           )}
         </S.CategoryModalContainer>

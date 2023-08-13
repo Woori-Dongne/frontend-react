@@ -1,19 +1,17 @@
-import { useState } from 'react';
 import Icon from '../../../../components/Icon';
 import * as S from './Upload.style';
 
 interface Props {
-  setImage: any;
-  inputRef: any;
-  image: any;
+  setImage: (value: React.SetStateAction<string | null | File>) => void;
+  inputRef: React.LegacyRef<HTMLInputElement>;
+  imgSrc: any;
+  setImgSrc: any;
 }
 
-const Upload = ({ setImage, inputRef }: Props) => {
-  const [imgSrc, setImgSrc] = useState<string | null>(null);
+const Upload = ({ setImage, inputRef, imgSrc, setImgSrc }: Props) => {
   const chgPreview = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files != null) {
       const imageFile = e.target.files[0];
-      console.log(imageFile);
       setImage(imageFile);
       if (imageFile != null) {
         const imageUrl = URL.createObjectURL(imageFile);

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import {
   CATEGORY_SORT,
   DEADLINE_YEAR,
@@ -63,6 +63,8 @@ const DropDownBox = ({
     curDropdownData === '' ? setCurDropdownData(data) : setCurDropdownData('');
   };
 
+  const modalRef = useRef<HTMLDivElement>(null);
+
   const selectValue = (value: string | number): void => {
     changeValue(type, value);
     setCurDropdownData('');
@@ -84,7 +86,12 @@ const DropDownBox = ({
         )}
       </S.CategoryValue>
       {curDropdownData === type && (
-        <DropDown dropDownList={list[type]} clickValue={selectValue} />
+        <DropDown
+          dropDownList={list[type]}
+          clickValue={selectValue}
+          modalRef={modalRef}
+          setState={setCurDropdownData}
+        />
       )}
     </S.CategoryDropDown>
   );
