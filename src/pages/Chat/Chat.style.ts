@@ -45,7 +45,7 @@ export const UserImg = styled.div`
   position: relative;
   width: 56px;
   height: 56px;
-  border: 1px solid black;
+  background-image: url('../../assets/profile.png');
   border-radius: 50px;
 `;
 

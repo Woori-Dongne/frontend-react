@@ -11,6 +11,7 @@ export interface Message {
   auth: string;
   username: string;
   message: string;
+  imageUrl?: string;
 }
 
 export interface JoinRoom {

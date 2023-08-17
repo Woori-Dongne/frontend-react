@@ -72,7 +72,7 @@ const Chat = () => {
           />
         </S.MenuBox>
         <S.ChatBox>
-          {chat.map(({ id, auth, username, message }) => {
+          {chat.map(({ id, auth, username, message, imageUrl }) => {
             return (
               <S.ChatCard type={auth} key={id}>
                 <S.TextWrap type={auth}>

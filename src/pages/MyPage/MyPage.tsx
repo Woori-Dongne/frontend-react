@@ -2,10 +2,11 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BACKEND_API_URL } from '../../constants/api';
 import { UserInput } from '../Signup/signup.type';
+import defaultProfile from '../../assets/profile.png';
 import Icon from '../../components/Icon';
 import ListBox from './components/ListBox';
+import Button from '../../components/Button';
 import * as S from './MyPage.style';
-import Button from '../../components/Button/Button';
 
 const MyPage = () => {
   const [curCategoryId, setCurCategoryId] = useState(0);
@@ -19,11 +20,10 @@ const MyPage = () => {
     imageUrl: '',
   });
 
-  const { userName, region } = userData;
+  const { userName, region, imageUrl } = userData;
 
   const navigate = useNavigate();
   const accessToken = localStorage.getItem('accessToken') as string;
-  // const refreshToken = localStorage.getItem('refreshToken') as string;
 
   useEffect(() => {
     const getUserInfo = async () => {
@@ -102,7 +102,10 @@ const MyPage = () => {
         </S.MenuBoxContainer>
       )}
       <S.UserInfoBox>
-        <S.UserImg />
+        <S.UserImg
+          src={imageUrl === null ? defaultProfile : imageUrl}
+          alt="profile"
+        />
         <S.UserNickName>{userName}</S.UserNickName>
         <S.UserEmail>{region}</S.UserEmail>
       </S.UserInfoBox>
@@ -130,6 +133,6 @@ export default MyPage;
 
 const CATEGORY_TITLE = [
   { id: 0, title: '내가 쓴 게시글', url: '/posts/user' },
-  { id: 1, title: '채팅방 리스트', url: '/users/posts' },
+  { id: 1, title: '채팅방 리스트', url: '/posts/chattings' },
   { id: 2, title: '친구 목록', url: '/users/follow' },
 ];

@@ -40,6 +40,7 @@ const KakaoRedirect = () => {
           localStorage.setItem('accessToken', getBackendData.accessToken);
           localStorage.setItem('refreshToken', getBackendData.refreshToken);
           localStorage.setItem('newbie', getBackendData.newbie);
+          localStorage.setItem('userId', getBackendData.id);
 
           if (getBackendData.newbie === true) {
             alert('추가적인 회원정보를 입력해주세요! ');

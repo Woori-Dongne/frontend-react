@@ -15,10 +15,9 @@ export const UserInfoBox = styled.div`
   padding: 53px 0;
 `;
 
-export const UserImg = styled.div`
+export const UserImg = styled.img`
   width: 56px;
   height: 56px;
-  border: 1px solid black;
   border-radius: 50px;
 `;
 

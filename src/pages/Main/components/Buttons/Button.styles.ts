@@ -11,4 +11,6 @@ export const ButtonBox = styled.div`
   width: 179px;
 `;
 
-export const CategoryModalContainer = styled.div``;
+export const CategoryModalContainer = styled.div`
+  width: 85px;
+`;
