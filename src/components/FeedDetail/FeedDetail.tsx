@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Feed, Info, InfoDetail } from '../../types/feedType';
-import { formatDate } from '../../utils/formatDate';
+import { changeDateString } from '../../utils/formatDate';
 import { socket } from '../../lib/socket';
 import { RoomTitleContext } from '../ChatProvider/ChatProvider';
 import { JoinRoom } from '../../types/chatType';
@@ -16,6 +16,7 @@ const FeedDetail = ({
   personnel,
   deadline,
   detailRegion,
+  roomName,
 }: Feed) => {
   const [isOpenChatModal, setIsOpenChatModal] = useState(false);
   const [showFullModal, setShowFullModal] = useState(false);
@@ -23,9 +24,6 @@ const FeedDetail = ({
   const locationHook = useLocation();
   const navigate = useNavigate();
   const isInMypage = locationHook.pathname === '/myPage';
-
-  // TODO: roomname 받아오는 로직 있으면 지우기
-  const roomName = 'b2419d34-8f66-46b2-9913-ff0fe24743d3';
 
   const lockScroll = () => {
     document.body.style.overflow = 'hidden';
@@ -47,7 +45,7 @@ const FeedDetail = ({
 
   const infoDetail: InfoDetail = {
     personnel,
-    deadline: formatDate(deadline),
+    deadline: changeDateString(deadline),
     detailRegion,
   };
 

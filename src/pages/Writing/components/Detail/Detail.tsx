@@ -14,7 +14,7 @@ const Detail = ({ detailText, handleChangeDetail }: DetailProps) => {
         maxLength={300}
         value={detailText}
         onChange={handleChangeDetail}
-        name="detailText"
+        name="content"
       />
     </S.DetailBox>
   );

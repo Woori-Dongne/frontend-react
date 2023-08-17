@@ -8,7 +8,7 @@ import * as S from './MyPage.style';
 
 const MyPage = () => {
   const [curCategoryId, setCurCategoryId] = useState(0);
-  const [curApi, setCurApi] = useState('/posts/user?offset=0');
+  const [curApi, setCurApi] = useState('/posts/user');
   const [userData, setUserData] = useState<UserInput>({
     userName: '',
     gender: '',
@@ -53,7 +53,7 @@ const MyPage = () => {
         <Icon
           name="back"
           clickAction={() => {
-            navigate('/main');
+            navigate(-1);
           }}
         />
         <S.MenuTitle>My Profile</S.MenuTitle>
@@ -92,7 +92,7 @@ const MyPage = () => {
 export default MyPage;
 
 const CATEGORY_TITLE = [
-  { id: 0, title: '내가 쓴 게시글', url: '/posts/user?offset=0' },
+  { id: 0, title: '내가 쓴 게시글', url: '/posts/user' },
   { id: 1, title: '채팅방 리스트', url: '/users/posts' },
   { id: 2, title: '친구 목록', url: '/users/follow' },
 ];

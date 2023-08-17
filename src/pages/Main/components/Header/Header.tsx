@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Feed } from '../../../../types/feedType';
 import Icon from '../../../../components/Icon';
 import DropDown from '../../../../components/DropDown/DropDown';
-import { Feed } from '../../../../types/feedType';
 import profile from '../../../../assets/profile.png';
 import { CATEGORY_SORT } from '../../../Writing/constants/dropdownList';
 import * as S from './Header.styles';
@@ -12,7 +12,7 @@ const Header = (props: Feed) => {
 
   const navigate = useNavigate();
 
-  const { category, user } = props;
+  const { category, user, id } = props;
 
   const openMoreDetail = () => {
     setOpenMoreModal(true);
@@ -23,7 +23,7 @@ const Header = (props: Feed) => {
   };
 
   const checkValue = (value: string | number): void => {
-    navigate('/writing', { state: props });
+    navigate('/writing', { state: id });
   };
 
   return (
