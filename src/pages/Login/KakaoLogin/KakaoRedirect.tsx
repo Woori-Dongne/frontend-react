@@ -39,8 +39,14 @@ const KakaoRedirect = () => {
           const getBackendToken = await backendResponse.json();
           localStorage.setItem('accessToken', getBackendToken.accessToken);
           localStorage.setItem('refreshToken', getBackendToken.refreshToken);
-          alert('추가적인 회원정보를 입력해주세요!');
-          navigate('/signup');
+          localStorage.setItem('newbie', getBackendToken.newbie);
+          console.log('getBackendToken', getBackendToken);
+          if (getBackendToken.newbie === true) {
+            alert('추가적인 회원정보를 입력해주세요! ');
+            navigate('/signup');
+          } else {
+            navigate('/main');
+          }
         } else {
           // 토큰이 없을 때 분기처리
           alert('다시 시도해주세요');
