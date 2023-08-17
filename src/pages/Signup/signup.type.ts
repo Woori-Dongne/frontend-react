@@ -16,3 +16,10 @@ export interface UserDataType {
   phoneNumber: string;
   imageUrl: string;
 }
+
+export interface DetailRegionType {
+  [key: string]: string;
+  si: string;
+  gu: string;
+  dong: string;
+}

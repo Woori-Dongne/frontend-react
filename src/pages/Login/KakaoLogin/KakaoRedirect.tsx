@@ -35,12 +35,12 @@ const KakaoRedirect = () => {
               AccessToken: jsonResponse.access_token,
             }),
           });
-          console.log(backendResponse);
+
           const getBackendData = await backendResponse.json();
           localStorage.setItem('accessToken', getBackendData.accessToken);
           localStorage.setItem('refreshToken', getBackendData.refreshToken);
           localStorage.setItem('newbie', getBackendData.newbie);
-          console.log('getBackendToken', getBackendData);
+
           if (getBackendData.newbie === true) {
             alert('추가적인 회원정보를 입력해주세요! ');
             navigate('/signup');

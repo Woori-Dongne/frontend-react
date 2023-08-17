@@ -3,8 +3,14 @@ export interface Item {
   title: string | number;
 }
 
+export interface RegionItem {
+  id: number;
+  title: string;
+  prev: string;
+}
+
 export interface DataList {
-  [key: string]: Item[];
+  [key: string]: Item[] | RegionItem[];
   category: Item[];
   personnel: Item[];
   year: Item[];
@@ -12,6 +18,9 @@ export interface DataList {
   day: Item[];
   hour: Item[];
   minute: Item[];
+  si: Item[];
+  gu: RegionItem[];
+  dong: RegionItem[];
 }
 
 export interface Placeholder {
@@ -23,6 +32,9 @@ export interface Placeholder {
   day: string | number;
   hour: string | number;
   minute: string | number;
+  si: string | number;
+  gu: string | number;
+  dong: string | number;
 }
 
 export interface DateTypeList {
