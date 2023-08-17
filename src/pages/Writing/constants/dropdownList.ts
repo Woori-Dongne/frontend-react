@@ -1,4 +1,4 @@
-import { Item } from '../types/writingType';
+import { Item, RegionItem } from '../types/writingType';
 
 export const CATEGORY_SORT: Item[] = [
   { id: 1, title: '배달' },
@@ -111,4 +111,26 @@ export const DEADLINE_MINUTE: Item[] = [
   { id: 10, title: 45 },
   { id: 11, title: 50 },
   { id: 12, title: 55 },
+];
+
+export const SI_LIST: Item[] = [
+  { id: 1, title: '서울시' },
+  { id: 2, title: '수원시' },
+  { id: 3, title: '청주시' },
+];
+
+export const GU_LIST: RegionItem[] = [
+  { id: 1, title: '중랑구', prev: '서울시' },
+  { id: 2, title: '송파구', prev: '서울시' },
+  { id: 3, title: '영통구', prev: '수원시' },
+  { id: 4, title: '장안구', prev: '수원시' },
+  { id: 5, title: '상당구', prev: '청주시' },
+];
+
+export const DONG_LIST: RegionItem[] = [
+  { id: 1, title: '중화동', prev: '중랑구' },
+  { id: 2, title: '가락동', prev: '송파구' },
+  { id: 3, title: '영통동', prev: '영통구' },
+  { id: 4, title: '연무동', prev: '장안구' },
+  { id: 5, title: '용암동', prev: '상당구' },
 ];

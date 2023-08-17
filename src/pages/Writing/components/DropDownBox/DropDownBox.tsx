@@ -1,5 +1,4 @@
 import { useState } from 'react';
-
 import {
   CATEGORY_SORT,
   DEADLINE_YEAR,
@@ -8,6 +7,9 @@ import {
   DEADLINE_DAY,
   DEADLINE_HOUR,
   DEADLINE_MINUTE,
+  SI_LIST,
+  GU_LIST,
+  DONG_LIST,
 } from '../../constants/dropdownList';
 import { DataList, Placeholder } from '../../types/writingType';
 import Icon from '../../../../components/Icon';
@@ -18,6 +20,7 @@ interface Props {
   width?: string;
   placeholder: string | number;
   type: string;
+  prevText?: string | number;
   changeValue: (data: string, value: string | number) => void;
 }
 
@@ -25,6 +28,7 @@ const DropDownBox = ({
   width = 'inherit',
   placeholder,
   type,
+  prevText,
   changeValue,
 }: Props) => {
   const [curDropdownData, setCurDropdownData] = useState('');
@@ -37,6 +41,9 @@ const DropDownBox = ({
     day: DEADLINE_DAY,
     hour: DEADLINE_HOUR,
     minute: DEADLINE_MINUTE,
+    si: SI_LIST,
+    gu: GU_LIST.filter((el) => el.prev === prevText),
+    dong: DONG_LIST.filter((el) => el.prev === prevText),
   };
 
   const placeholderText: Placeholder = {
@@ -47,6 +54,9 @@ const DropDownBox = ({
     day: placeholder === '' ? '일' : placeholder,
     hour: placeholder === '' ? '시간' : placeholder,
     minute: placeholder === '' ? '분' : placeholder,
+    si: placeholder === '' ? '시' : placeholder,
+    gu: placeholder === '' ? '구' : placeholder,
+    dong: placeholder === '' ? '동' : placeholder,
   };
 
   const openDropDown = (data: string) => {
