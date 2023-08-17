@@ -3,8 +3,8 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import Button from '../../../../components/Button/Button';
 import Modal from '../../../../components/Modal';
 import DropDown from '../../../../components/DropDown/DropDown';
-import * as S from './Button.styles';
 import { CATEGORY_SORT } from '../../../Writing/constants/dropdownList';
+import * as S from './Button.styles';
 
 const Buttons = () => {
   const [isOpenWritingModal, setIsOpenWritingModal] = useState(false);
@@ -68,7 +68,7 @@ const Buttons = () => {
             $buttonsize="small"
             $buttonbackground="mainYellow"
             onClick={() => {
-              setIsOpenCategoryModal(!isOpenCategoryModal);
+              setIsOpenCategoryModal((prev) => !prev);
             }}
           />
           {isOpenCategoryModal && (
@@ -77,8 +77,8 @@ const Buttons = () => {
               clickValue={(list: string | number, index: number) => {
                 handleCategoryParams(list, index);
               }}
-              width="10%"
-              $top="30"
+              width="inherit"
+              $top="125px"
             />
           )}
         </S.CategoryModalContainer>

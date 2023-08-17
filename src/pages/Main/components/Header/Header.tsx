@@ -9,10 +9,10 @@ import * as S from './Header.styles';
 
 const Header = (props: Feed) => {
   const [openMoreModal, setOpenMoreModal] = useState<boolean>(false);
-
+  const currentUserId = localStorage.getItem('userId') as string;
   const navigate = useNavigate();
 
-  const { category, user, id } = props;
+  const { category, user, id, userId } = props;
 
   const openMoreDetail = () => {
     setOpenMoreModal(true);
@@ -41,12 +41,14 @@ const Header = (props: Feed) => {
           </S.ProfileNameBox>
         </S.ProfileContainer>
         <S.MoreDetailBox>
-          <Icon
-            name="more"
-            width="26.3px"
-            height="7px"
-            clickAction={openMoreDetail}
-          />
+          {userId === Number(currentUserId) && (
+            <Icon
+              name="more"
+              width="26.3px"
+              height="7px"
+              clickAction={openMoreDetail}
+            />
+          )}
           {openMoreModal && (
             <DropDown
               dropDownList={FEED_MENU}
