@@ -12,6 +12,7 @@ export interface Feed {
   createAt?: string;
   updatedAt?: string;
   deletedAt?: string;
+  roomName: string;
   user: Follow;
 }
 

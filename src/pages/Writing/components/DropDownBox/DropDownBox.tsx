@@ -31,7 +31,7 @@ const DropDownBox = ({
 
   const list: DataList = {
     category: CATEGORY_SORT,
-    personal: PERSONNEL_LIMIT,
+    personnel: PERSONNEL_LIMIT,
     year: DEADLINE_YEAR,
     month: DEADLINE_MONTH,
     day: DEADLINE_DAY,
@@ -40,8 +40,8 @@ const DropDownBox = ({
   };
 
   const placeholderText: Placeholder = {
-    category: placeholder === '' ? '카테고리를 선택해 주세요' : placeholder,
-    personal: placeholder === '' ? '인원을 선택해 주세요' : placeholder,
+    category: placeholder === 0 ? '카테고리를 선택해 주세요' : placeholder,
+    personnel: placeholder === 0 ? '인원을 선택해 주세요' : placeholder,
     year: placeholder === '' ? '연' : placeholder,
     month: placeholder === '' ? '월' : placeholder,
     day: placeholder === '' ? '일' : placeholder,
