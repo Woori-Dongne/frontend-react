@@ -1,4 +1,4 @@
-import { styled } from 'styled-components';
+import { styled, keyframes } from 'styled-components';
 import { mixins } from '../../styles/mixins';
 import { typo } from '../../styles/typo';
 
@@ -46,4 +46,39 @@ export const CategoryTitle = styled.div<{ $cur: boolean }>`
   white-space: pre-wrap;
   line-height: 1.4;
   cursor: pointer;
+`;
+
+export const MenuBoxContainer = styled.div`
+  position: relative;
+`;
+
+const fadeIn = keyframes`
+0% {
+  opacity: 0;
+  transform: translateY(-20%);
+}
+100% {
+  opacity: 1;
+  transform: translateY(0%);
+}
+`;
+
+export const ButtonContainer = styled.div`
+  ${mixins.columnFlexBox()};
+  position: absolute;
+  top: 5px;
+  right: 0px;
+
+  width: 170px;
+  padding: 15px;
+
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
+  animation: ${fadeIn} 0.3s ease-in-out;
+
+  Button {
+    margin: 5px 0px;
+  }
 `;

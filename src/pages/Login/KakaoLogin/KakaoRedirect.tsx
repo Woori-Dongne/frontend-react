@@ -36,12 +36,12 @@ const KakaoRedirect = () => {
             }),
           });
           console.log(backendResponse);
-          const getBackendToken = await backendResponse.json();
-          localStorage.setItem('accessToken', getBackendToken.accessToken);
-          localStorage.setItem('refreshToken', getBackendToken.refreshToken);
-          localStorage.setItem('newbie', getBackendToken.newbie);
-          console.log('getBackendToken', getBackendToken);
-          if (getBackendToken.newbie === true) {
+          const getBackendData = await backendResponse.json();
+          localStorage.setItem('accessToken', getBackendData.accessToken);
+          localStorage.setItem('refreshToken', getBackendData.refreshToken);
+          localStorage.setItem('newbie', getBackendData.newbie);
+          console.log('getBackendToken', getBackendData);
+          if (getBackendData.newbie === true) {
             alert('추가적인 회원정보를 입력해주세요! ');
             navigate('/signup');
           } else {

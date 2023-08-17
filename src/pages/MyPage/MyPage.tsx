@@ -5,10 +5,12 @@ import { UserInput } from '../Signup/signup.type';
 import Icon from '../../components/Icon';
 import ListBox from './components/ListBox';
 import * as S from './MyPage.style';
+import Button from '../../components/Button/Button';
 
 const MyPage = () => {
   const [curCategoryId, setCurCategoryId] = useState(0);
   const [curApi, setCurApi] = useState('/posts/user');
+  const [isMenuView, setIsMenuView] = useState(false);
   const [userData, setUserData] = useState<UserInput>({
     userName: '',
     gender: '',
@@ -21,6 +23,7 @@ const MyPage = () => {
 
   const navigate = useNavigate();
   const accessToken = localStorage.getItem('accessToken') as string;
+  // const refreshToken = localStorage.getItem('refreshToken') as string;
 
   useEffect(() => {
     const getUserInfo = async () => {
@@ -47,6 +50,16 @@ const MyPage = () => {
     setCurApi(url);
   };
 
+  const handleMenuBox = () => {
+    setIsMenuView(!isMenuView);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    navigate('/');
+  };
+
   return (
     <>
       <S.MenuBox>
@@ -60,10 +73,34 @@ const MyPage = () => {
         <Icon
           name="setting"
           clickAction={() => {
-            navigate('/signup', { state: 'myPage' });
+            handleMenuBox();
           }}
         />
       </S.MenuBox>
+      {isMenuView && (
+        <S.MenuBoxContainer>
+          <S.ButtonContainer>
+            <Button
+              title="회원정보 수정"
+              $border="none"
+              $buttonsize="medium"
+              $buttonbackground="mainYellow"
+              $font="black"
+              onClick={() => {
+                navigate('/signup', { state: 'myPage' });
+              }}
+            />
+            <Button
+              title="로그아웃"
+              $border="none"
+              $buttonsize="medium"
+              $buttonbackground="mainRed"
+              $font="black"
+              onClick={handleLogout}
+            />
+          </S.ButtonContainer>
+        </S.MenuBoxContainer>
+      )}
       <S.UserInfoBox>
         <S.UserImg />
         <S.UserNickName>{userName}</S.UserNickName>
