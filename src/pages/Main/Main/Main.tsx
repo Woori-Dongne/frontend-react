@@ -9,7 +9,7 @@ import EmptyCard from '../../../components/EmptyCard';
 const Main = () => {
   const [searchParams] = useSearchParams();
   const [page, setPage] = useState(0);
-  const [feedData, loading] = useGetFetch(
+  const [feedData, loading, error] = useGetFetch(
     `/posts?offset=${page}&${searchParams.toString()}`,
     page,
   );
@@ -41,7 +41,7 @@ const Main = () => {
   return (
     <div>
       <Buttons />
-      {Array.isArray(feedData) ? (
+      {Array.isArray(feedData) && error === '' ? (
         feedData.map((list: Feed) => {
           return <Feeds key={list.id} {...list} />;
         })

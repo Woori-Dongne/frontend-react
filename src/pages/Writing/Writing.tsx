@@ -1,19 +1,18 @@
-import { useState, useContext, useRef } from 'react';
+import { useState, useContext, useRef, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { socket } from '../../lib/socket';
-import { Feed } from '../../types/feedType';
 import { CreateRoom } from '../../types/chatType';
 import { RoomTitleContext } from '../../components/ChatProvider/ChatProvider';
 import { uploadImageFile } from '../../S3upload';
+import { CategoryId, DateTypeList } from './types/writingType';
+import { FeedInfo } from '../../types/feedType';
+import { BACKEND_API_URL } from '../../constants/api';
+import Input from '../../components/Input';
 import Detail from './components/Detail/Detail';
-import Title from './components/Title/Title';
-import Pickup from './components/Pickup/Pickup';
 import Upload from './components/Upload/Upload';
 import Button from '../../components/Button/Button';
 import Modal from '../../components/Modal';
 import DropDownBox from './components/DropDownBox/DropDownBox';
-import { CATEGORY_SORT } from './constants/dropdownList';
-// import { BACKEND_API_URL } from '../../constants/api';
 import * as S from './Writing.style';
 
 const Writing = () => {
@@ -21,36 +20,72 @@ const Writing = () => {
   const [imgSrc, setImgSrc] = useState<string | null>(null);
   const [, setLoading] = useState<boolean>(false);
   const [image, setImage] = useState<string | null | File>(null);
-  const location = useLocation();
-  const [imgUrl, setImgUrl] = useState('');
   const inputImageRef = useRef<HTMLInputElement | null>(null);
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const onClearInput = () => {
     if (inputImageRef.current) {
       inputImageRef.current.value = '';
     }
   };
+
+  const [feedInfo, setFeedInfo] = useState<FeedInfo>({
+    title: '',
+    content: '',
+    personnel: 0,
+    category: 0,
+    regionId: 1,
+    detailRegion: '',
+    imageUrl: 'null',
+    deadline: new Date(),
+  });
+
+  const [deadLineDate, setDeadLineDate] = useState<DateTypeList>({
+    year: '',
+    month: '',
+    day: '',
+    hour: '',
+    minute: '',
+  });
+
+  const { title, content, category, detailRegion, personnel } = feedInfo;
+  const { year, month, day, hour, minute } = deadLineDate;
+
+  const getModifyFeed = async () => {
+    const id: string = location.state;
+    const response = await fetch(`${BACKEND_API_URL}/post/${id}`);
+    const data = await response.json();
+    setFeedInfo(data);
+  };
+
+  useEffect(() => {
+    if (location.state !== null) {
+      void getModifyFeed();
+    }
+  }, [location]);
+
+  const checkDate = Object.values(deadLineDate).every((el) => el !== '');
+
+  useEffect(() => {
+    if (checkDate) {
+      const dateString = `${year}.${month}.${day} ${hour}:${minute}`;
+      setFeedInfo((prev) => ({ ...prev, deadline: new Date(dateString) }));
+    }
+  }, [deadLineDate]);
+
   const onClick = () => {
     try {
       setLoading(true);
-      uploadImageFile(image, setImage, setImgUrl);
-      alert('피드백 전송을 성공했습니다.');
+      uploadImageFile(image, setImage, setFeedInfo);
     } catch (e) {
-      alert('피드백 전송에 실패했습니다.');
+      alert(e);
     } finally {
       setLoading(false);
       onClearInput();
     }
   };
-
-  const { title, content, detailRegion }: Feed = location.state || {} || '';
-
-  const [inputText, setInputText] = useState({
-    titleText: title ?? '',
-    detailText: content || '',
-    pickupPlaceText: detailRegion || '',
-  });
-
-  const { titleText, detailText, pickupPlaceText } = inputText;
 
   const onChangeHandler = (
     e:
@@ -58,7 +93,7 @@ const Writing = () => {
       | React.ChangeEvent<HTMLTextAreaElement>,
   ) => {
     const { value, name } = e.target;
-    setInputText({ ...inputText, [name]: value });
+    setFeedInfo((prev) => ({ ...prev, [name]: value }));
   };
 
   const lockScroll = () => {
@@ -75,61 +110,53 @@ const Writing = () => {
   };
 
   const { handleRoomInfo } = useContext(RoomTitleContext);
-  const navigate = useNavigate();
-
-  // FIX: 방 만들때 사용해야 하는 데이터기 때문에 데이터 입력 로직 완성 되면 지우기
-  const testRoomData = {
-    title: '안녕하세요',
-    content: '테스트',
-    personnel: 4,
-    category: 2,
-    regionId: 3,
-    detailRegion: '선릉 위워크',
-    imageUrl: imgUrl,
-    deadline: new Date(Date.UTC(2023, 8, 8, 18, 12, 12)),
-  };
 
   const sucessToPost = () => {
     onClick();
 
-    socket.emit('create-room', testRoomData, (chat: CreateRoom) => {
+    socket.emit('create-room', feedInfo, (chat: CreateRoom) => {
       handleRoomInfo(chat.title, chat.roomName);
       navigate('/chat');
     });
     unlockScroll();
   };
 
-  const dateDeadLine = new Date(location.state?.deadline);
-
-  const [infoList, setInfoList] = useState({
-    category: !location.state?.category
-      ? ''
-      : CATEGORY_SORT[location.state.category - 1].title,
-    personal: !location.state?.personnel ? '' : location.state.personnel,
-    year: !location.state?.deadline ? '' : dateDeadLine.getFullYear(),
-    month: !location.state?.deadline ? '' : dateDeadLine.getMonth(),
-    day: !location.state?.deadline ? '' : dateDeadLine.getDay(),
-    hour: !location.state?.deadline ? '' : dateDeadLine.getHours(),
-    minute: !location.state?.deadline ? '' : dateDeadLine.getMinutes(),
-  });
-
-  const { category, personal, year, month, day, hour, minute } = infoList;
+  const categotyIdList: CategoryId = {
+    배달: 1,
+    공구: 2,
+    산책: 3,
+    운동: 4,
+  };
 
   const selectList = (name: string, value: string | number): void => {
-    setInfoList((prev) => ({ ...prev, [name]: value }));
+    if (name === 'category') {
+      setFeedInfo((prev) => ({ ...prev, category: categotyIdList[value] }));
+    }
+    setFeedInfo((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const selectDate = (name: string, value: string | number): void => {
+    setDeadLineDate((prev) => ({ ...prev, [name]: Number(value) }));
   };
 
   const activeButton =
-    titleText.length > 1 &&
-    pickupPlaceText.length > 1 &&
-    Object.values(infoList).every((el) => el !== '');
+    title.length > 1 && detailRegion.length > 1 && personnel > 1 && checkDate;
 
   return (
     <S.Container>
       <S.Remind>
         앞에 (<span>✴︎</span>)표시가 있는 항목은 필수 항목입니다.
       </S.Remind>
-      <Title titleText={titleText} handleChangeTitle={onChangeHandler} />
+      <Input
+        title="제목"
+        required={true}
+        type="text"
+        placeholder="최대 30글자까지 입력 가능합니다"
+        maxLength={30}
+        value={title}
+        onChange={onChangeHandler}
+        name="title"
+      />
       <S.InfoBox>
         <S.InfoTitle>카테고리</S.InfoTitle>
         <DropDownBox
@@ -140,62 +167,45 @@ const Writing = () => {
         />
       </S.InfoBox>
 
-      <Detail detailText={detailText} handleChangeDetail={onChangeHandler} />
+      <Detail detailText={content} handleChangeDetail={onChangeHandler} />
       <Upload
         setImage={setImage}
         inputRef={inputImageRef}
         imgSrc={imgSrc}
         setImgSrc={setImgSrc}
       />
-      <Pickup
-        pickupPlaceText={pickupPlaceText}
-        handleChangePickupPlace={onChangeHandler}
+      <Input
+        title="예상 픽업 장소"
+        required={true}
+        type="text"
+        placeholder="동 주소와 상세 주소를 작성해주세요"
+        value={detailRegion}
+        onChange={onChangeHandler}
+        name="detailRegion"
       />
       <S.InfoBox>
         <S.InfoTitle>인원</S.InfoTitle>
         <DropDownBox
           width="100%"
-          placeholder={personal}
-          type="personal"
+          placeholder={personnel}
+          type="personnel"
           changeValue={selectList}
         />
       </S.InfoBox>
-      {/* 포스트 api나오면 붙일예정 */}
-      {/* <button onClick={onClick}>s3 버튼</button> */}
-
       <S.InfoBox>
         <S.InfoTitle>마감 기한</S.InfoTitle>
         <S.DropDownWrap>
-          <DropDownBox
-            width="30%"
-            placeholder={year}
-            type="year"
-            changeValue={selectList}
-          />
-          <DropDownBox
-            width="30%"
-            placeholder={month}
-            type="month"
-            changeValue={selectList}
-          />
-          <DropDownBox
-            width="30%"
-            placeholder={day}
-            type="day"
-            changeValue={selectList}
-          />
-          <DropDownBox
-            width="45%"
-            placeholder={hour}
-            type="hour"
-            changeValue={selectList}
-          />
-          <DropDownBox
-            width="45%"
-            placeholder={minute}
-            type="minute"
-            changeValue={selectList}
-          />
+          {DATE_INPUT_LIST.map(({ id, type, width }) => {
+            return (
+              <DropDownBox
+                key={id}
+                width={width}
+                placeholder={deadLineDate[type]}
+                type={type}
+                changeValue={selectDate}
+              />
+            );
+          })}
         </S.DropDownWrap>
       </S.InfoBox>
 
@@ -229,3 +239,11 @@ const Writing = () => {
 };
 
 export default Writing;
+
+const DATE_INPUT_LIST = [
+  { id: 1, type: 'year', width: '30%' },
+  { id: 2, type: 'month', width: '30%' },
+  { id: 3, type: 'day', width: '30%' },
+  { id: 4, type: 'hour', width: '45%' },
+  { id: 5, type: 'minute', width: '45%' },
+];

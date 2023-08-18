@@ -24,12 +24,15 @@ const useGetFetch = (url: string, page: number) => {
         // 무한스크롤 파트 데이터 중복이 돼서 주석처리해놓음
         // setData((prev) => [...prev, ...result]);
         setData(result);
+        setError('');
       } else {
         setHasMoreData(false);
       }
 
-      if (result.message === 'Resource not found')
+      if (result.message) {
+        setData([]);
         setError('데이터를 찾을 수 없습니다');
+      }
     } catch (error) {
       console.error(error);
     }
