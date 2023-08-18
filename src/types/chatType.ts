@@ -9,6 +9,7 @@ export interface ChatUser {
 export interface Message {
   id: number;
   auth: string;
+  userId: number;
   username: string;
   message: string;
   imageUrl?: string;
@@ -21,4 +22,10 @@ export interface JoinRoom {
 
 export interface CreateRoom extends JoinRoom {
   roomName: string;
+}
+
+export interface ReportData {
+  [key: string]: string | number;
+  friendId: number;
+  content: string;
 }

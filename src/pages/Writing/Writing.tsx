@@ -42,6 +42,8 @@ const Writing = () => {
     deadline: new Date(),
   });
 
+  console.log(feedInfo);
+
   const [deadLineDate, setDeadLineDate] = useState<DateTypeList>({
     year: '',
     month: '',
@@ -87,6 +89,10 @@ const Writing = () => {
     }
   };
 
+  useEffect(() => {
+    onClick();
+  }, [imgSrc]);
+
   const onChangeHandler = (
     e:
       | React.ChangeEvent<HTMLInputElement>
@@ -112,8 +118,6 @@ const Writing = () => {
   const { handleRoomInfo } = useContext(RoomTitleContext);
 
   const sucessToPost = () => {
-    onClick();
-
     socket.emit('create-room', feedInfo, (chat: CreateRoom) => {
       handleRoomInfo(chat.title, chat.roomName);
       navigate('/chat');

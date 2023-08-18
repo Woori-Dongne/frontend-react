@@ -48,6 +48,7 @@ const DropDown = ({
             $color={list.title !== '신고하기'}
             onClick={(e: React.MouseEvent) => {
               e.stopPropagation();
+              e.preventDefault();
               clickValue(list.title, list.id);
             }}
           >

@@ -32,29 +32,6 @@ export const ConfrimContent = styled.div`
   word-wrap: break-word;
 `;
 
-export const ReportBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-`;
-
-export const ReportTitle = styled.h2`
-  ${typo.normal};
-`;
-
-export const ReportTextarea = styled.textarea`
-  ${typo.small};
-  margin-top: 10px;
-  padding: 5px 6px;
-  height: 108px;
-  background: ${({ theme }) => theme.colors.white};
-  border: 1px solid ${({ theme }) => theme.colors.mainYellow};
-  border-radius: 8px;
-  font-family: Noto Sans;
-  resize: none;
-  overflow: scroll;
-`;
-
 export const ButtonsBox = styled.div`
   display: flex;
   justify-content: space-evenly;

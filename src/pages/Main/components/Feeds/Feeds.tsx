@@ -4,13 +4,10 @@ import FeedDetail from '../../../../components/FeedDetail';
 import * as S from './Feeds.styles';
 
 const Feeds = (props: Feed) => {
-  console.log(props);
   return (
     <S.PostFeedContainer>
       <Header {...props} />
-
       {props.imageUrl !== '' && <S.FeedImage alt="img" src={props.imageUrl} />}
-
       <FeedDetail {...props} />
     </S.PostFeedContainer>
   );

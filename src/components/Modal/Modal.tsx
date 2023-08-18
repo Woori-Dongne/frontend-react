@@ -1,6 +1,7 @@
 import Button from '../Button/Button';
 import Icon from '../Icon/Icon';
 import * as S from './Modal.style';
+
 interface ModalProps {
   confirmMessage?: string | React.ReactNode;
   type: string;
@@ -18,15 +19,7 @@ const Modal = ({
     <S.DimmedBackground>
       <S.ModalContainer>
         <Icon name="logos" width="63px" />
-        {type === 'report' ? (
-          <S.ReportBox>
-            <S.ReportTitle>신고 사유 작성</S.ReportTitle>
-            <S.ReportTextarea placeholder="상세하게 신고 사유를 작성해주세요" />
-          </S.ReportBox>
-        ) : (
-          <S.ConfrimContent>{confirmMessage}</S.ConfrimContent>
-        )}
-
+        <S.ConfrimContent>{confirmMessage}</S.ConfrimContent>
         <S.ButtonsBox>
           {(type === 'confirm' || type === 'report') && (
             <>

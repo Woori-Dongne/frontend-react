@@ -41,11 +41,15 @@ export const ChatCard = styled.div<{ type: string }>`
   margin-bottom: 15px;
 `;
 
-export const UserImg = styled.div`
+export const ImageWrap = styled.div`
+  position: relative;
+  width: 56px;
+`;
+
+export const UserImg = styled.img`
   position: relative;
   width: 56px;
   height: 56px;
-  background-image: url('../../assets/profile.png');
   border-radius: 50px;
 `;
 
@@ -110,3 +114,26 @@ const chatText: ChatUser = {
     background-color: ${({ theme }) => theme.colors.mainRed};
   `,
 };
+
+export const ReportBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+`;
+
+export const ReportTitle = styled.h2`
+  ${typo.normal};
+`;
+
+export const ReportTextarea = styled.textarea`
+  ${typo.small};
+  margin-top: 10px;
+  padding: 5px 6px;
+  height: 108px;
+  background: ${({ theme }) => theme.colors.white};
+  border: 1px solid ${({ theme }) => theme.colors.mainYellow};
+  border-radius: 8px;
+  font-family: Noto Sans;
+  resize: none;
+  overflow: scroll;
+`;
