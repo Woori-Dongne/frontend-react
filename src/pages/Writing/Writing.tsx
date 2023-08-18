@@ -42,8 +42,6 @@ const Writing = () => {
     deadline: new Date(),
   });
 
-  console.log(feedInfo);
-
   const [deadLineDate, setDeadLineDate] = useState<DateTypeList>({
     year: '',
     month: '',
@@ -63,7 +61,7 @@ const Writing = () => {
   };
 
   useEffect(() => {
-    if (location.state !== null) {
+    if (location.state) {
       void getModifyFeed();
     }
   }, [location]);
@@ -90,7 +88,9 @@ const Writing = () => {
   };
 
   useEffect(() => {
-    onClick();
+    if (imgSrc !== null) {
+      onClick();
+    }
   }, [imgSrc]);
 
   const onChangeHandler = (

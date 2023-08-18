@@ -116,7 +116,13 @@ const Chat = () => {
         body: JSON.stringify(report),
       });
       const result = await response.json();
-      console.log(result);
+      if (result.created_at) {
+        alert('신고가 완료되었습니다');
+        setActiveModalList((prev) => ({
+          ...prev,
+          isReportModalOpen: false,
+        }));
+      }
     } catch (e) {
       console.error(e);
     }
