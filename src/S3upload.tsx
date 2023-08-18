@@ -1,4 +1,5 @@
 import AWS from 'aws-sdk';
+import { FeedInfo } from './types/feedType';
 
 const ACCESS_KEY = process.env.REACT_APP_ACCESS_KEY;
 const SECRET_ACCESS_KEY = process.env.REACT_APP_SECRET_ACCESS_KEY;
@@ -25,7 +26,7 @@ interface props {
 export const uploadImageFile = (
   image: any,
   setImage: React.Dispatch<React.SetStateAction<string | File | null>>,
-  setImgUrl: React.Dispatch<React.SetStateAction<string>>,
+  setFeedInfo: React.Dispatch<React.SetStateAction<FeedInfo>>,
 ) => {
   const params: props = {
     ACL: 'public-read',
@@ -33,7 +34,7 @@ export const uploadImageFile = (
     Bucket: S3_BUCKET,
     Key: S3_BUCKET + '/' + image.name,
   };
-  console.log(image.name);
+
   myBucket
     .putObject(params)
     .on('httpUploadProgress', () => {
@@ -45,8 +46,7 @@ export const uploadImageFile = (
       if (err) console.log('image upload error', err);
       else {
         const imageUrl = `https://s3.${REGION}.amazonaws.com/${S3_BUCKET}/${params.Key}`;
-        console.log('Image URL:', imageUrl);
-        setImgUrl(imageUrl);
+        setFeedInfo((prev) => ({ ...prev, imageUrl: imageUrl }));
       }
     });
 };

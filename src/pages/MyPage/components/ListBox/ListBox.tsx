@@ -12,13 +12,13 @@ interface Props {
 
 const ListBox = ({ id, api }: Props) => {
   const page = 1;
-  const [data, loading] = useGetFetch(api, page);
+  const [data, loading, error] = useGetFetch(api, page);
 
   if (loading) return null;
 
   return (
     <S.ListBox>
-      {Array.isArray(data) ? (
+      {Array.isArray(data) && error === '' ? (
         id !== 2 ? (
           data.map((list: Feed) => {
             return (

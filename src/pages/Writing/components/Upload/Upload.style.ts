@@ -5,7 +5,7 @@ import { typo } from '../../../../styles/typo';
 export const ImageUploadContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 20px;
+  margin: 20px 0;
 `;
 
 export const ImageUpLoadName = styled.h3`
@@ -21,8 +21,8 @@ export const ImageUpLoadBox = styled.label`
 `;
 
 export const ImageUpLoad = styled.img`
-  border-radius: 8px;
   width: 100%;
   height: 418px;
+  border-radius: 8px;
   object-fit: cover;
 `;

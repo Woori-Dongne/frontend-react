@@ -34,3 +34,14 @@ export interface InfoDetail {
   deadline: string;
   detailRegion: string;
 }
+
+export interface FeedInfo {
+  title: string;
+  content: string;
+  personnel: number;
+  category: number;
+  regionId: number;
+  detailRegion: string;
+  imageUrl?: string;
+  deadline: Date;
+}
