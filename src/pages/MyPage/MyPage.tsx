@@ -124,7 +124,11 @@ const MyPage = () => {
           );
         })}
       </S.CategoryBox>
-      <ListBox id={curCategoryId} api={curApi} />
+      <ListBox
+        api={curApi}
+        id={curCategoryId}
+        handleCategory={handleCategory}
+      />
     </>
   );
 };

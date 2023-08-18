@@ -8,13 +8,14 @@ import * as S from './ListBox.style';
 interface Props {
   id: number;
   api: string;
+  handleCategory: (id: number, url: string) => void;
 }
 
-const ListBox = ({ id, api }: Props) => {
+const ListBox = ({ id, api, handleCategory }: Props) => {
   const page = 1;
   const [data, loading, error] = useGetFetch(api, page);
 
-  if (loading) return null;
+  if (loading) return <EmptyCard />;
 
   return (
     <S.ListBox>
@@ -31,7 +32,7 @@ const ListBox = ({ id, api }: Props) => {
           data.map((list: Follow) => {
             return (
               <S.ListCard key={list.id}>
-                <FollowCard {...list} />
+                <FollowCard list={list} handleCategory={handleCategory} />
               </S.ListCard>
             );
           })

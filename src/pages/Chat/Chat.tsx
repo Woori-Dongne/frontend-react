@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { socket } from '../../lib/socket';
 import { RoomTitleContext } from '../../components/ChatProvider/ChatProvider';
 import { Message } from '../../types/chatType';
+import { BACKEND_API_URL } from '../../constants/api';
 import Icon from '../../components/Icon';
 import Button from '../../components/Button';
 import Modal from '../../components/Modal';
@@ -20,13 +21,20 @@ const Chat = () => {
   const [chat, setChat] = useState<Message[]>([]);
   const [message, setMessage] = useState<string>('');
   const { roomInfo } = useContext(RoomTitleContext);
-  const { title, roomName } = roomInfo;
   const modalRef = useRef<HTMLDivElement>(null);
+  const { title, roomName } = roomInfo;
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [activeModalList, setActiveModalList] = useState({
+    isChatRoomModalOpen: false,
+    isReportModalOpen: false,
+  });
+
+  const { isChatRoomModalOpen, isReportModalOpen } = activeModalList;
+
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
-  const chatId = chat.length;
   const navigate = useNavigate();
+  const chatId = chat.length;
+  const token = localStorage.getItem('accessToken') as string;
 
   useEffect(() => {
     const messageHandler = (chat: Message) => {
@@ -57,8 +65,29 @@ const Chat = () => {
     });
   };
 
+  const postFetch = async (uri: string) => {
+    try {
+      const response = await fetch(`${BACKEND_API_URL}/${uri}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: null,
+      });
+      const result = await response.json();
+      console.log(result);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   const checkValue = (value: string | number): void => {
-    console.log(value);
+    if (value === '친구등록') {
+      void postFetch('users/follow/2');
+    } else {
+      // void postFetch('users/report');
+    }
   };
 
   return (
@@ -75,12 +104,16 @@ const Chat = () => {
           <Icon
             name="out"
             clickAction={() => {
-              setIsModalOpen((prev) => !prev);
+              setActiveModalList((prev) => ({
+                ...prev,
+                isChatRoomModalOpen: true,
+              }));
             }}
           />
         </S.MenuBox>
         <S.ChatBox>
-          {chat.map(({ id, auth, username, message, imageUrl }) => {
+          <button onClick={() => checkValue('친구등록')}>테스트</button>
+          {chat.map(({ id, auth, username, message }) => {
             return (
               <S.ChatCard type={auth} key={id}>
                 <S.TextWrap type={auth}>
@@ -90,8 +123,12 @@ const Chat = () => {
                   </S.ChatText>
                 </S.TextWrap>
                 <S.UserImg
-                  onClick={() => {
-                    setIsDropDownOpen((prev) => !prev);
+                  title={String(id)}
+                  onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+                    const targetElement = e.target as HTMLDivElement;
+
+                    if (targetElement.title === String(id) && auth !== 'admin')
+                      setIsDropDownOpen((prev) => !prev);
                   }}
                 >
                   {isDropDownOpen && auth !== 'admin' && (
@@ -119,7 +156,7 @@ const Chat = () => {
           />
         </S.InfoBox>
       </S.Container>
-      {isModalOpen && (
+      {isChatRoomModalOpen && (
         <Modal
           type="confirm"
           confirmMessage="채팅방을 완전히 나가시겠습니까?"
@@ -127,7 +164,25 @@ const Chat = () => {
             navigate('/main');
           }}
           cancelAction={() => {
-            setIsModalOpen((prev) => !prev);
+            setActiveModalList((prev) => ({
+              ...prev,
+              isChatRoomModalOpen: false,
+            }));
+          }}
+        />
+      )}
+      {isReportModalOpen && (
+        <Modal
+          type="confirm"
+          confirmMessage="신고 사유 작성"
+          confirmAction={() => {
+            navigate('/main');
+          }}
+          cancelAction={() => {
+            setActiveModalList((prev) => ({
+              ...prev,
+              isReportModalOpen: false,
+            }));
           }}
         />
       )}
