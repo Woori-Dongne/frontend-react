@@ -53,7 +53,7 @@ const Modal = ({
             <Button
               title={type === 'goback' ? '뒤로 돌아가기' : '채팅 계속하기'}
               $border="none"
-              $buttonsize="large"
+              $buttonsize="medium"
               $buttonbackground="mainYellow"
               $font="black"
               onClick={confirmAction}

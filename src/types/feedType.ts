@@ -19,7 +19,7 @@ export interface Feed {
 export interface Follow {
   id?: number;
   userName?: string;
-  imageUrl?: string;
+  imageUrl?: string | null;
 }
 
 export interface Info {
