@@ -9,8 +9,9 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { socket } from '../../lib/socket';
 import { RoomTitleContext } from '../../components/ChatProvider/ChatProvider';
-import { Message } from '../../types/chatType';
+import { Message, ReportData } from '../../types/chatType';
 import { BACKEND_API_URL } from '../../constants/api';
+import defaultProfile from '../../assets/profile.png';
 import Icon from '../../components/Icon';
 import Button from '../../components/Button';
 import Modal from '../../components/Modal';
@@ -20,6 +21,12 @@ import * as S from './Chat.style';
 const Chat = () => {
   const [chat, setChat] = useState<Message[]>([]);
   const [message, setMessage] = useState<string>('');
+  const [currentSelectId, setCurrentSelectId] = useState<string | number>('');
+  const [report, setReport] = useState<ReportData>({
+    friendId: 0,
+    content: '',
+  });
+
   const { roomInfo } = useContext(RoomTitleContext);
   const modalRef = useRef<HTMLDivElement>(null);
   const { title, roomName } = roomInfo;
@@ -65,7 +72,14 @@ const Chat = () => {
     });
   };
 
-  const postFetch = async (uri: string) => {
+  const clickUserImage = (id: number, userId: number, auth: string) => {
+    if (id === currentSelectId && auth !== 'admin') {
+      setIsDropDownOpen((prev) => !prev);
+      setReport((prev) => ({ ...prev, friendId: userId }));
+    }
+  };
+
+  const registeFriend = async (uri: string) => {
     try {
       const response = await fetch(`${BACKEND_API_URL}/${uri}`, {
         method: 'POST',
@@ -73,10 +87,11 @@ const Chat = () => {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: null,
       });
       const result = await response.json();
-      console.log(result);
+      if (result.created_at) {
+        alert('친구 등록이 완료되었습니다');
+      }
     } catch (e) {
       console.error(e);
     }
@@ -84,9 +99,26 @@ const Chat = () => {
 
   const checkValue = (value: string | number): void => {
     if (value === '친구등록') {
-      void postFetch('users/follow/2');
+      void registeFriend(`users/follow/${String(report.friendId)}`);
     } else {
-      // void postFetch('users/report');
+      setActiveModalList((prev) => ({ ...prev, isReportModalOpen: true }));
+    }
+  };
+
+  const confirmReport = async () => {
+    try {
+      const response = await fetch(`${BACKEND_API_URL}/users/report`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(report),
+      });
+      const result = await response.json();
+      console.log(result);
+    } catch (e) {
+      console.error(e);
     }
   };
 
@@ -112,8 +144,7 @@ const Chat = () => {
           />
         </S.MenuBox>
         <S.ChatBox>
-          <button onClick={() => checkValue('친구등록')}>테스트</button>
-          {chat.map(({ id, auth, username, message }) => {
+          {chat.map(({ id, auth, userId, username, message }) => {
             return (
               <S.ChatCard type={auth} key={id}>
                 <S.TextWrap type={auth}>
@@ -122,25 +153,27 @@ const Chat = () => {
                     {message}
                   </S.ChatText>
                 </S.TextWrap>
-                <S.UserImg
-                  title={String(id)}
-                  onClick={(e: React.MouseEvent<HTMLDivElement>) => {
-                    const targetElement = e.target as HTMLDivElement;
-
-                    if (targetElement.title === String(id) && auth !== 'admin')
-                      setIsDropDownOpen((prev) => !prev);
-                  }}
-                >
-                  {isDropDownOpen && auth !== 'admin' && (
-                    <DropDown
-                      $top="60px"
-                      dropDownList={DROPDOWN_INFO}
-                      clickValue={checkValue}
-                      modalRef={modalRef}
-                      setState={setIsDropDownOpen}
-                    />
-                  )}
-                </S.UserImg>
+                <S.ImageWrap>
+                  <S.UserImg
+                    src={defaultProfile}
+                    alt="profile"
+                    onClick={() => {
+                      setCurrentSelectId(id);
+                      clickUserImage(id, userId, auth);
+                    }}
+                  />
+                  {isDropDownOpen &&
+                    auth !== 'admin' &&
+                    id === currentSelectId && (
+                      <DropDown
+                        $top="20px"
+                        dropDownList={DROPDOWN_INFO}
+                        clickValue={checkValue}
+                        modalRef={modalRef}
+                        setState={setIsDropDownOpen}
+                      />
+                    )}
+                </S.ImageWrap>
               </S.ChatCard>
             );
           })}
@@ -173,11 +206,19 @@ const Chat = () => {
       )}
       {isReportModalOpen && (
         <Modal
-          type="confirm"
-          confirmMessage="신고 사유 작성"
-          confirmAction={() => {
-            navigate('/main');
-          }}
+          type="report"
+          confirmMessage={
+            <S.ReportBox>
+              <S.ReportTitle>신고 사유 작성</S.ReportTitle>
+              <S.ReportTextarea
+                placeholder="상세하게 신고 사유를 작성해주세요"
+                onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
+                  setReport((prev) => ({ ...prev, content: e.target.value }));
+                }}
+              />
+            </S.ReportBox>
+          }
+          confirmAction={confirmReport}
           cancelAction={() => {
             setActiveModalList((prev) => ({
               ...prev,

@@ -46,7 +46,7 @@ export const uploadImageFile = (
       if (err) console.log('image upload error', err);
       else {
         const imageUrl = `https://s3.${REGION}.amazonaws.com/${S3_BUCKET}/${params.Key}`;
-        setFeedInfo((prev) => ({ ...prev, imageUrl: imageUrl }));
+        setFeedInfo((prev) => ({ ...prev, imageUrl }));
       }
     });
 };
