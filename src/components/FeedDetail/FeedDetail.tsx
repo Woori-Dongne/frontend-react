@@ -11,12 +11,14 @@ import Button from '../Button/Button';
 import * as S from './FeedDetail.style';
 
 const FeedDetail = ({
+  id,
   title,
   content,
   personnel,
   deadline,
   detailRegion,
   roomName,
+  chattingRoom,
 }: Feed) => {
   const [isOpenChatModal, setIsOpenChatModal] = useState(false);
   const [showFullModal, setShowFullModal] = useState(false);
@@ -49,17 +51,22 @@ const FeedDetail = ({
     detailRegion,
   };
 
-  // leave-room
   const checkPeronnel = () => {
     if (personnel > 6) {
       setIsOpenChatModal(false);
       setShowFullModal(true);
       unlockScroll();
     } else {
-      socket.emit('join-room', { roomName, postId: 12 }, (chat: JoinRoom) => {
-        handleRoomInfo(chat.title, roomName);
-      });
-      navigate('/chat');
+      const currentRoomName =
+        roomName !== undefined ? roomName : chattingRoom?.roomName;
+      socket.emit(
+        'join-room',
+        { currentRoomName, postId: id },
+        (chat: JoinRoom) => {
+          handleRoomInfo(title, currentRoomName);
+          navigate('/chat');
+        },
+      );
       unlockScroll();
     }
   };

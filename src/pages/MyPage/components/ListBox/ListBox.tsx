@@ -15,7 +15,7 @@ const ListBox = ({ id, api, handleCategory }: Props) => {
   const page = 1;
   const [data, loading, error] = useGetFetch(api, page);
 
-  if (loading) return <EmptyCard />;
+  if (loading) return <EmptyCard key={1} />;
 
   return (
     <S.ListBox>
