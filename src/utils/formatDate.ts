@@ -22,3 +22,15 @@ export const makeNewDate = (
 
   return `${year}.${month}.${day} ${changeKoreaHour}:${minute}`;
 };
+
+export const sliceDate = (date: string) => {
+  const newDate = new Date(date);
+
+  const year = newDate.getFullYear();
+  const month = String(newDate.getMonth() + 1);
+  const day = String(newDate.getDate());
+  const hour = String(newDate.getHours());
+  const minute = String(newDate.getMinutes());
+
+  return { year, month, day, hour, minute };
+};

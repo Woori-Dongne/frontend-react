@@ -5,6 +5,9 @@ export const ListBox = styled.div`
   flex-direction: column;
   gap: 10px;
   margin-top: 16px;
+  padding: 0 10px 10px;
+  height: 420px;
+  overflow-y: scroll;
 `;
 
 export const ListCard = styled.div`

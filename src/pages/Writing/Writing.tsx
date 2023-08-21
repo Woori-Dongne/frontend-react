@@ -13,7 +13,9 @@ import Upload from './components/Upload/Upload';
 import Button from '../../components/Button/Button';
 import Modal from '../../components/Modal';
 import DropDownBox from './components/DropDownBox/DropDownBox';
+import { CATEGORY_SORT } from './constants/dropdownList';
 import * as S from './Writing.style';
+import { sliceDate } from '../../utils/formatDate';
 
 const Writing = () => {
   const [isOpenPostModal, setIsOpenPostModal] = useState(false);
@@ -24,6 +26,8 @@ const Writing = () => {
 
   const location = useLocation();
   const navigate = useNavigate();
+  const token = localStorage.getItem('accessToken') as string;
+  const id: string = location.state;
 
   const onClearInput = () => {
     if (inputImageRef.current) {
@@ -50,14 +54,40 @@ const Writing = () => {
     minute: '',
   });
 
-  const { title, content, category, detailRegion, personnel } = feedInfo;
+  const { title, content, category, detailRegion, personnel, imageUrl } =
+    feedInfo;
   const { year, month, day, hour, minute } = deadLineDate;
 
   const getModifyFeed = async () => {
-    const id: string = location.state;
-    const response = await fetch(`${BACKEND_API_URL}/post/${id}`);
+    const response = await fetch(`${BACKEND_API_URL}/posts/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
     const data = await response.json();
-    setFeedInfo(data);
+    const {
+      title,
+      content,
+      personnel,
+      category,
+      regionId,
+      detailRegion,
+      imageUrl,
+      deadline,
+    } = data;
+    setFeedInfo((prev) => ({
+      ...prev,
+      title,
+      content,
+      personnel,
+      category,
+      regionId,
+      detailRegion,
+      imageUrl,
+    }));
+    setDeadLineDate(sliceDate(deadline));
   };
 
   useEffect(() => {
@@ -117,11 +147,30 @@ const Writing = () => {
 
   const { handleRoomInfo } = useContext(RoomTitleContext);
 
-  const sucessToPost = () => {
-    socket.emit('create-room', feedInfo, (chat: CreateRoom) => {
-      handleRoomInfo(chat.title, chat.roomName);
-      navigate('/chat');
-    });
+  const sucessToPost = async () => {
+    if (location.state > 0) {
+      const response = await fetch(`${BACKEND_API_URL}/posts/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          title,
+          content,
+          category,
+          personnel,
+          imageUrl,
+          detailRegion,
+        }),
+      });
+      if (response.ok) navigate('/main');
+    } else {
+      socket.emit('create-room', feedInfo, (chat: CreateRoom) => {
+        handleRoomInfo(chat.title, chat.roomName);
+        navigate('/chat');
+      });
+    }
     unlockScroll();
   };
 
@@ -133,10 +182,9 @@ const Writing = () => {
   };
 
   const selectList = (name: string, value: string | number): void => {
-    if (name === 'category') {
-      setFeedInfo((prev) => ({ ...prev, category: categotyIdList[value] }));
-    }
-    setFeedInfo((prev) => ({ ...prev, [name]: value }));
+    name === 'category'
+      ? setFeedInfo((prev) => ({ ...prev, category: categotyIdList[value] }))
+      : setFeedInfo((prev) => ({ ...prev, [name]: value }));
   };
 
   const selectDate = (name: string, value: string | number): void => {
@@ -165,7 +213,7 @@ const Writing = () => {
         <S.InfoTitle>카테고리</S.InfoTitle>
         <DropDownBox
           width="100%"
-          placeholder={category}
+          placeholder={CATEGORY_SORT[category - 1]?.title}
           type="category"
           changeValue={selectList}
         />
