@@ -14,6 +14,7 @@ export interface Feed {
   deletedAt?: string;
   roomName: string;
   user: Follow;
+  chattingRoom: ChattingRoom;
 }
 
 export interface Follow {
@@ -44,4 +45,13 @@ export interface FeedInfo {
   detailRegion: string;
   imageUrl?: string;
   deadline: Date;
+}
+
+export interface ChattingRoom {
+  createdAt: string;
+  deadline: string;
+  hostId: number;
+  id: number;
+  postId: number;
+  roomName: string;
 }
