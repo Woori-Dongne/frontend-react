@@ -25,7 +25,7 @@ export const NickName = styled.span`
 export const DeleteButton = styled.button`
   ${typo.medium};
   border: none;
-  background-color: white;
+  background-color: inherit;
   color: ${({ theme }) => theme.colors.mainRed};
   cursor: pointer;
 `;

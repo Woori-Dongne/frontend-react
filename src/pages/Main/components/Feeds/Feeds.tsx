@@ -7,7 +7,9 @@ const Feeds = (props: Feed) => {
   return (
     <S.PostFeedContainer>
       <Header {...props} />
-      {props.imageUrl !== '' && <S.FeedImage alt="img" src={props.imageUrl} />}
+      {props.imageUrl !== 'null' && (
+        <S.FeedImage alt="img" src={props.imageUrl} />
+      )}
       <FeedDetail {...props} />
     </S.PostFeedContainer>
   );
