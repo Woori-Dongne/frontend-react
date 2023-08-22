@@ -5,6 +5,7 @@ import { Feed } from '../types/feedType';
 const useGetFetch = (url: string, page: number) => {
   const [data, setData] = useState<Feed[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+
   const [hasMoreData, setHasMoreData] = useState(true);
   const [error, setError] = useState<string>('');
 
@@ -20,17 +21,16 @@ const useGetFetch = (url: string, page: number) => {
 
       const result = await response.json();
 
-      if (result.length > 0) {
-        // 무한스크롤 파트 데이터 중복이 돼서 주석처리해놓음
-        // setData((prev) => [...prev, ...result]);
-        setData(result);
-        setError('');
-      } else {
+      if (result.length === 1) {
         setHasMoreData(false);
       }
 
+      const filteredResult = result.filter(
+        (newItem: { id: number }) =>
+          !data.some((existingItem) => existingItem.id === newItem.id),
+      );
+      setData((prevData) => [...prevData, ...filteredResult]);
       if (result.message) {
-        setData([]);
         setError('데이터를 찾을 수 없습니다');
       }
     } catch (error) {

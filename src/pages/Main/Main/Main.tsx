@@ -8,19 +8,25 @@ import EmptyCard from '../../../components/EmptyCard';
 
 const Main = () => {
   const [searchParams] = useSearchParams();
-  const [page, setPage] = useState(0);
-  const [feedData, loading, error] = useGetFetch(
+  const [page, setPage] = useState(1);
+  const [feedData, loading, error, hasMoreData] = useGetFetch(
     `/posts?offset=${page}&${searchParams.toString()}`,
     page,
   );
-  const pageEnd: any = useRef();
+  const pageEnd = useRef<HTMLInputElement>(null);
 
   const loadMore = () => {
-    setPage((prev) => prev + 1);
+    if (hasMoreData) {
+      setPage((prev) => prev + 1);
+    }
   };
 
   useEffect(() => {
-    if (!loading) {
+    if (!pageEnd.current) {
+      return;
+    }
+
+    if (!loading && hasMoreData) {
       const observer = new IntersectionObserver(
         (entries) => {
           if (entries[0].isIntersecting) {
@@ -33,8 +39,11 @@ const Main = () => {
       if (pageEnd.current) {
         observer.observe(pageEnd.current);
       }
+      return () => {
+        observer.disconnect();
+      };
     }
-  }, [loading]);
+  }, [loading, hasMoreData]);
 
   if (loading) return null;
 

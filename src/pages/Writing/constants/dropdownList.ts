@@ -1,10 +1,10 @@
 import { Item, RegionItem } from '../types/writingType';
 
 export const CATEGORY_SORT: Item[] = [
-  { id: 1, title: '배달' },
-  { id: 2, title: '공구' },
-  { id: 3, title: '산책' },
-  { id: 4, title: '운동' },
+  { id: 0, title: '배달' },
+  { id: 1, title: '공구' },
+  { id: 2, title: '산책' },
+  { id: 3, title: '운동' },
 ];
 
 export const PERSONNEL_LIMIT: Item[] = [
