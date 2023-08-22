@@ -21,11 +21,13 @@ const Buttons = () => {
     searchParams.set('category', index.toString());
     setSearchParams(searchParams);
     setIsOpenCategoryModal(false);
+    location.reload();
   };
 
   const setDeadlineParams = () => {
     searchParams.set('sortBy', 'deadLine');
     setSearchParams(searchParams);
+    location.reload();
   };
 
   const lockScroll = () => {
