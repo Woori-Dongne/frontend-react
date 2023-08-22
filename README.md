@@ -1,8 +1,8 @@
 # 우리동네
 
 <div align="center">
-
-![우리동네 top](https://github.com/Woori-Dongne/frontend-react/assets/78401083/b4c5b37e-1ced-496e-ae23-104eb654c55a)
+    
+![우리동네](https://github.com/Woori-Dongne/frontend-react/assets/78401083/1252ff99-839e-4a55-8b98-053a95a6a33a)
 
 </div>
 
@@ -60,76 +60,50 @@ $ npm start
 
 ## 주요 기능 📦
 
-### 🏘️ 
+### 🏘️ 소셜 로그인 (카카오톡)
 
--
+![카카오톡 로그인](https://github.com/Woori-Dongne/frontend-react/assets/78401083/f7f281e8-9e54-4137-91bf-a07208895195)
+- 소셜 로그인 (카카오톡)을 이용해 사용자의 접근성과 편리함을 높임
+- 처음 가입하는 유저에게는 추가 정보 (닉네임, 상세 주소, 핸드폰 번호)를 입력하도록 설정
+- 기존 유저에게는 추가 정보를 기입하는 프로세스를 제거
 
-### 🏘️
+### 🏘️ 게시글 작성 기능
 
--
+![글 작성 페이지](https://github.com/Woori-Dongne/frontend-react/assets/78401083/fc3e7d4a-aed4-4a1e-b46a-3236aec4120a)
+- 타이틀, 카테고리, 지역, 인원, 날짜 데이터를 통한 게시글 작성 및 채팅방 개설
+- S3를 통한 이미지 업로드 기능
+- 게시글 수정시 게시글의 id만으로 해당 글에 대한 데이터가 보여질 수 있도록 구현
 
-### 🏘️
+### 🏘️ 채팅 기능
 
--
+![채팅방](https://github.com/Woori-Dongne/frontend-react/assets/78401083/a01af4ad-704c-409c-a5c2-219179543477)
+- WebSocket 통신 방식을 이용한 유저간의 채팅 기능
+- 나를 제외한 다른 유저를 친구로 등록하거나 신고하는 기능
 
-<!-- ### 디렉토리 구조
+
+
+### 디렉토리 구조
 ```bash
+├── public
+│   ├── index.html
+├── src
+│   ├── index.tsx
+│   ├── Router.tsx
+│   ├── assets : 프로젝트에 사용되는 이미지를 관리하는 폴더
+│   ├── components : 공통 컴포넌트를 관리하는 폴더
+│   ├── constants : 상수 데이터를 관리하는 폴더
+│   ├── hooks : Custom hook을 관리하는 폴더
+│   ├── lib : 라이브러리와 관련한 함수를 관리하는 폴더
+│   ├── pages
+│   ├── styles
+│   ├── types
+│   └── utils
+├── tsconfig.json
+├── .env
+├── .eslintrc
+├── .prettierrc
 ├── README.md
 ├── package-lock.json
-├── package.json
-├── strapi-backend :
-│   ├── README.md
-│   ├── api : db model, api 관련 정보 폴더
-│   │   ├── about
-│   │   ├── course
-│   │   └── lecture
-│   ├── config : 서버, 데이터베이스 관련 정보 폴더
-│   │   ├── database.js
-│   │   ├── env : 배포 환경(NODE_ENV = production) 일 때 설정 정보 폴더
-│   │   ├── functions : 프로젝트에서 실행되는 함수 관련 정보 폴더
-│   │   └── server.js
-│   ├── extensions
-│   │   └── users-permissions : 권한 정보
-│   ├── favicon.ico
-│   ├── package-lock.json
-│   ├── package.json
-│   └── public
-│       ├── robots.txt
-│       └── uploads : 강의 별 사진
-└── voluntain-app : 프론트엔드
-    ├── README.md
-    ├── components
-    │   ├── CourseCard.js
-    │   ├── Footer.js
-    │   ├── LectureCards.js
-    │   ├── MainBanner.js : 메인 페이지에 있는 남색 배너 컴포넌트, 커뮤니티 이름과 슬로건을 포함.
-    │   ├── MainCard.js
-    │   ├── MainCookieCard.js
-    │   ├── NavigationBar.js : 네비게이션 바 컴포넌트, _app.js에서 공통으로 전체 페이지에 포함됨.
-    │   ├── RecentLecture.js
-    │   └── useWindowSize.js
-    ├── config
-    │   └── next.config.js
-    ├── lib
-    │   ├── context.js
-    │   └── ga
-    ├── next.config.js
-    ├── package-lock.json
-    ├── package.json
-    ├── pages
-    │   ├── _app.js
-    │   ├── _document.js
-    │   ├── about.js
-    │   ├── course
-    │   ├── index.js
-    │   ├── lecture
-    │   ├── newcourse
-    │   ├── question.js
-    │   └── setting.js
-    ├── public
-    │   ├── favicon.ico
-    │   └── logo_about.png
-    └── styles
-        └── Home.module.css
+└── package.json
+```
 
-``` -->
