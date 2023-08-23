@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { BACKEND_API_URL } from '../../../../constants/api';
 import { Follow } from '../../../../types/feedType';
-import { token } from '../../../../lib/socket';
+import { deleteFriend } from '../../../../service/queries';
 import Modal from '../../../../components/Modal/Modal';
 import defaultProfile from '../../../../assets/profile.png';
 import * as S from './FollowCard.style';
@@ -20,28 +19,13 @@ const FollowCard = ({ list, handleCategory }: Props) => {
 
   const { isDeleteFriendModal, isConfirmModal } = modalList;
 
-  const deleteFriend = async () => {
-    try {
-      const response = await fetch(
-        `${BACKEND_API_URL}/users/follow/${String(id)}`,
-        {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-          body: null,
-        },
-      );
-
-      if (response.ok) {
-        setModalList({
-          isDeleteFriendModal: false,
-          isConfirmModal: true,
-        });
-      }
-    } catch (e) {
-      console.error(e);
+  const handleDeleteFriend = async () => {
+    const data = await deleteFriend(String(id));
+    if (data.status === 200) {
+      setModalList({
+        isDeleteFriendModal: false,
+        isConfirmModal: true,
+      });
     }
   };
 
@@ -74,7 +58,7 @@ const FollowCard = ({ list, handleCategory }: Props) => {
           type="confirm"
           confirmMessage="정말 친구를 삭제하겠습니까?"
           confirmAction={() => {
-            void deleteFriend();
+            void handleDeleteFriend();
           }}
           cancelAction={() => {
             setModalList((prev) => ({ ...prev, isDeleteFriendModal: false }));

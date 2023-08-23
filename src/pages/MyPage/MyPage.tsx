@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BACKEND_API_URL } from '../../constants/api';
-import { UserInput } from '../Signup/signup.type';
-import defaultProfile from '../../assets/profile.png';
+import { getUserInfo } from '../../service/queries';
+import { GetUserInfo } from '../../service/types';
 import Icon from '../../components/Icon';
 import ListBox from './components/ListBox';
 import Button from '../../components/Button';
+import defaultProfile from '../../assets/profile.png';
 import * as S from './MyPage.style';
 
 const MyPage = () => {
   const [curCategoryId, setCurCategoryId] = useState(0);
   const [curApi, setCurApi] = useState('/posts/user');
   const [isMenuView, setIsMenuView] = useState(false);
-  const [userData, setUserData] = useState<UserInput>({
+  const [userData, setUserData] = useState<GetUserInfo>({
     userName: '',
     gender: '',
     region: '',
@@ -22,28 +22,16 @@ const MyPage = () => {
 
   const { userName, region, imageUrl } = userData;
 
-  const navigate = useNavigate();
-  const accessToken = localStorage.getItem('accessToken') as string;
-
   useEffect(() => {
-    const getUserInfo = async () => {
-      try {
-        const response = await fetch(`${BACKEND_API_URL}/users`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-        const data = await response.json();
-        setUserData(data);
-      } catch (error) {
-        console.error(error);
-      }
+    const setData = async () => {
+      const data = await getUserInfo();
+      setUserData(data);
     };
 
-    void getUserInfo();
+    void setData();
   }, []);
+
+  const navigate = useNavigate();
 
   const handleCategory = (id: number, url: string) => {
     setCurCategoryId(id);
