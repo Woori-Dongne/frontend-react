@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { socket } from '../../lib/socket';
 import { RoomTitleContext } from '../../components/ChatProvider/ChatProvider';
 import { Message, ReportData } from '../../types/chatType';
-import { BACKEND_API_URL } from '../../constants/api';
+import { postRegisteFriend, postReport } from '../../service/queries';
 import defaultProfile from '../../assets/profile.png';
 import Icon from '../../components/Icon';
 import Button from '../../components/Button';
@@ -41,7 +41,6 @@ const Chat = () => {
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
   const navigate = useNavigate();
   const chatId = chat.length;
-  const token = localStorage.getItem('accessToken') as string;
 
   useEffect(() => {
     const messageHandler = (chat: Message) => {
@@ -79,52 +78,27 @@ const Chat = () => {
     }
   };
 
-  const registeFriend = async (uri: string) => {
-    try {
-      const response = await fetch(`${BACKEND_API_URL}/${uri}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const result = await response.json();
-      if (result.created_at) {
-        alert('친구 등록이 완료되었습니다');
-      }
-    } catch (e) {
-      console.error(e);
-    }
+  const registeFriend = async () => {
+    const data = await postRegisteFriend(String(report.friendId));
+    if (data.created_at) alert('친구등록 완료');
   };
 
   const checkValue = (value: string | number): void => {
     if (value === '친구등록') {
-      void registeFriend(`users/follow/${String(report.friendId)}`);
+      void registeFriend();
     } else {
       setActiveModalList((prev) => ({ ...prev, isReportModalOpen: true }));
     }
   };
 
   const confirmReport = async () => {
-    try {
-      const response = await fetch(`${BACKEND_API_URL}/users/report`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(report),
-      });
-      const result = await response.json();
-      if (result.created_at) {
-        alert('신고가 완료되었습니다');
-        setActiveModalList((prev) => ({
-          ...prev,
-          isReportModalOpen: false,
-        }));
-      }
-    } catch (e) {
-      console.error(e);
+    const data = await postReport(report);
+    if (data.create_at) {
+      alert('신고가 완료되었습니다');
+      setActiveModalList((prev) => ({
+        ...prev,
+        isReportModalOpen: false,
+      }));
     }
   };
 

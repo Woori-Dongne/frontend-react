@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Feed } from '../../../../types/feedType';
-import { BACKEND_API_URL } from '../../../../constants/api';
+import { deleteFeed } from '../../../../service/queries';
 import Icon from '../../../../components/Icon';
 import DropDown from '../../../../components/DropDown/DropDown';
 import profile from '../../../../assets/profile.png';
@@ -13,7 +13,6 @@ const Header = (props: Feed) => {
   const [openMoreModal, setOpenMoreModal] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const currentUserId = localStorage.getItem('userId') as string;
-  const token = localStorage.getItem('accessToken') as string;
 
   const navigate = useNavigate();
 
@@ -34,22 +33,12 @@ const Header = (props: Feed) => {
       : setIsModalOpen((prev) => !prev);
   };
 
-  const deleteFeed = async () => {
-    try {
-      const response = await fetch(`${BACKEND_API_URL}/posts/${String(id)}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (response.ok) {
-        alert('글이 삭제되었습니다');
-        navigate('/main');
-        setIsModalOpen((prev) => !prev);
-      }
-    } catch (error) {
-      console.error(error);
+  const deletePost = async () => {
+    const data = await deleteFeed(String(id));
+    if (data.status === 200) {
+      alert('글이 삭제되었습니다');
+      navigate('/main');
+      setIsModalOpen((prev) => !prev);
     }
   };
 
@@ -92,7 +81,7 @@ const Header = (props: Feed) => {
         <Modal
           type="confirm"
           confirmMessage="정말 글을 삭제하시겠습니까?"
-          confirmAction={deleteFeed}
+          confirmAction={deletePost}
           cancelAction={() => {
             setIsModalOpen((prev) => !prev);
           }}

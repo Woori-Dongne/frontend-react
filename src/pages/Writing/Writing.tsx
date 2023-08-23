@@ -3,10 +3,11 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { socket } from '../../lib/socket';
 import { CreateRoom } from '../../types/chatType';
 import { RoomTitleContext } from '../../components/ChatProvider/ChatProvider';
-import { uploadImageFile } from '../../S3upload';
+import { uploadImageFile } from '../../utils/S3upload';
+import { getFeed, patchFeed } from '../../service/queries';
 import { CategoryId, DateTypeList } from './types/writingType';
 import { FeedInfo } from '../../types/feedType';
-import { BACKEND_API_URL } from '../../constants/api';
+import { sliceDate } from '../../utils/formatDate';
 import Input from '../../components/Input';
 import Detail from './components/Detail/Detail';
 import Upload from './components/Upload/Upload';
@@ -15,7 +16,6 @@ import Modal from '../../components/Modal';
 import DropDownBox from './components/DropDownBox/DropDownBox';
 import { CATEGORY_SORT } from './constants/dropdownList';
 import * as S from './Writing.style';
-import { sliceDate } from '../../utils/formatDate';
 
 const Writing = () => {
   const [isOpenPostModal, setIsOpenPostModal] = useState(false);
@@ -26,7 +26,6 @@ const Writing = () => {
 
   const location = useLocation();
   const navigate = useNavigate();
-  const token = localStorage.getItem('accessToken') as string;
   const id: string = location.state;
 
   const onClearInput = () => {
@@ -59,14 +58,7 @@ const Writing = () => {
   const { year, month, day, hour, minute } = deadLineDate;
 
   const getModifyFeed = async () => {
-    const response = await fetch(`${BACKEND_API_URL}/posts/${id}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const data = await response.json();
+    const data = await getFeed(id);
     const {
       title,
       content,
@@ -93,6 +85,7 @@ const Writing = () => {
   useEffect(() => {
     if (location.state) {
       void getModifyFeed();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }, [location]);
 
@@ -149,22 +142,15 @@ const Writing = () => {
 
   const sucessToPost = async () => {
     if (location.state > 0) {
-      const response = await fetch(`${BACKEND_API_URL}/posts/${id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          title,
-          content,
-          category,
-          personnel,
-          imageUrl,
-          detailRegion,
-        }),
+      const data = await patchFeed(id, {
+        title,
+        content,
+        category,
+        personnel,
+        imageUrl,
+        detailRegion,
       });
-      if (response.ok) navigate('/main');
+      if (data.status === 200) navigate('/main');
     } else {
       socket.emit('create-room', feedInfo, (chat: CreateRoom) => {
         handleRoomInfo(chat.title, chat.roomName);

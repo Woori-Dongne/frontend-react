@@ -1,5 +1,5 @@
 import AWS from 'aws-sdk';
-import { FeedInfo } from './types/feedType';
+import { FeedInfo } from '../types/feedType';
 
 const ACCESS_KEY = process.env.REACT_APP_ACCESS_KEY;
 const SECRET_ACCESS_KEY = process.env.REACT_APP_SECRET_ACCESS_KEY;

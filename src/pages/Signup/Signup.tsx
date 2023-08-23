@@ -1,7 +1,8 @@
 import { FormEvent, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { BACKEND_API_URL } from '../../constants/api';
-import { DetailRegionType, UserAddInfo, UserInput } from './signup.type';
+import { DetailRegionType, UserAddInfo } from './signup.type';
+import { GetUserInfo } from '../../service/types';
+import { getUserInfo, patchUserInfo } from '../../service/queries';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import Modal from '../../components/Modal';
@@ -10,7 +11,7 @@ import * as S from './Signup.style';
 
 const Signup = () => {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
-  const [inputInfo, setInputInfo] = useState<UserInput>({
+  const [inputInfo, setInputInfo] = useState<GetUserInfo>({
     userName: '',
     region: '',
     phoneNumber: '',
@@ -29,42 +30,19 @@ const Signup = () => {
 
   const location = useLocation();
   const navigate = useNavigate();
-  const accessToken = localStorage.getItem('accessToken') as string;
   const isEdit = location.state === 'myPage';
 
-  const getUserInfo = async () => {
-    try {
-      const response = await fetch(`${BACKEND_API_URL}/users`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      const data = await response.json();
-      setInputInfo(data);
-      relocationRegion(data.region);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const relocationRegion = (region: string) => {
-    const si = region.slice(0, 3);
-    const gu = region.slice(4, 7);
-    const dong = region.slice(8, 11);
-
-    setDetailRegion({ si, gu, dong });
+  const setData = async () => {
+    const data = await getUserInfo();
+    data.imageUrl === null
+      ? setInputInfo({ ...data, imageUrl: '' })
+      : setInputInfo(data);
+    relocationRegion(data.region);
   };
 
   useEffect(() => {
-    if (location.state === 'myPage') void getUserInfo();
+    if (location.state === 'myPage') void setData();
   }, [location.state]);
-
-  const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setInputInfo((prev) => ({ ...prev, [name]: value }));
-  };
 
   useEffect(() => {
     if (detailRegion.dong !== '') {
@@ -74,6 +52,19 @@ const Signup = () => {
       setInputInfo((prev) => ({ ...prev, region: '' }));
     }
   }, [detailRegion]);
+
+  const relocationRegion = (region: string) => {
+    const si = region.slice(0, 3);
+    const gu = region.slice(4, 7);
+    const dong = region.slice(8, 11);
+
+    setDetailRegion({ si, gu, dong });
+  };
+
+  const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setInputInfo((prev) => ({ ...prev, [name]: value }));
+  };
 
   const selectList = (name: string, value: string | number): void => {
     if (name === 'si')
@@ -95,25 +86,9 @@ const Signup = () => {
     setIsOpenModal(isValidationCheck);
   };
 
-  const submitUserInfo = () => {
-    const sendUserInfo = async () => {
-      try {
-        const response = await fetch(`${BACKEND_API_URL}/users`, {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessToken}`,
-          },
-          body: JSON.stringify({ ...inputInfo, imageUrl: null }),
-        });
-        const data = await response.json();
-        if (data.id) navigate('/');
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    void sendUserInfo();
+  const submitUserInfo = async () => {
+    const data = await patchUserInfo({ ...inputInfo, imageUrl: null });
+    if (data.id) navigate('/');
   };
 
   return (
